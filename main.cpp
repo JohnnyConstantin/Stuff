@@ -233,7 +233,17 @@ public:
             cin >> ar3[i];
         }
 
-        heapSort(ar3, 10);
+        // Формируем нижний ряд пирамиды
+        for (int i = (10 / 2) - 1; i >= 0; i--)
+            shiftDown(ar3, i,10 - 1);
+        // Просеиваем через пирамиду остальные элементы
+        for (int i = 10 - 1; i >= 1; i--)
+        {
+            int temp = ar3[0];
+            ar3[0] = ar3[i];
+            ar3[i] = temp;
+            shiftDown(ar3, 0, i - 1);
+        }
 
         for (int i = 0;i < 10;i++) {
             cout << ar3[i] << " ";
@@ -248,17 +258,17 @@ public:
         int done = 0; // флаг того, что куча сформирована
         // Пока не дошли до последнего ряда
         while ((root * 2 <= bottom) && (!done)) {
-            if (root * 2 == bottom) {    // если мы в последнем ряду,
+            if (root * 2 == bottom){    // если мы в последнем ряду,
                 maxChild = root * 2;
+                ;}
               // запоминаем левый потомок
-            C++;
             // иначе запоминаем больший потомок из двух
-        }   else if (numbers[root * 2] > numbers[root * 2 + 1]) {
+            else if (numbers[root * 2] > numbers[root * 2 + 1]){
             maxChild = root * 2;
-            C++;
-        } else{
+            ;}
+            else{
                 maxChild = root * 2 + 1;
-                C++;}
+                ;}
             // если элемент вершины меньше максимального потомка
             if (numbers[root] < numbers[maxChild])
             {
@@ -266,7 +276,6 @@ public:
                 numbers[root] = numbers[maxChild];
                 numbers[maxChild] = temp;
                 root = maxChild;
-                M++;
                 C++;
             }
             else // иначе
@@ -275,9 +284,11 @@ public:
     }
     static void heapSort(int *numbers, int array_size)
         {
+            long int start = GetTickCountMs();
+            M =0, C=0;
             // Формируем нижний ряд пирамиды
-            for (int i = (array_size / 2) - 1; i >= 0; i--)
-                shiftDown(numbers, i, array_size - 1);
+            for (int i = (array_size / 2) - 1; i >= 0; i--){
+                shiftDown(numbers, i, array_size - 1);}
             // Просеиваем через пирамиду остальные элементы
             for (int i = array_size - 1; i >= 1; i--)
             {
@@ -286,6 +297,10 @@ public:
                 numbers[i] = temp;
                 shiftDown(numbers, 0, i - 1);
             }
+            long int end = GetTickCountMs();
+            long int T = end - start;
+            f = C + M;
+            cout << "T(n)=" << T << " fэ(n)=" << f << endl;
         };
 
     static void resultHeap() {
@@ -298,16 +313,16 @@ public:
             cout << n << " элементов:" << endl;
             cout << "Средний случай:" << endl;
             heapSort(ar_3, n);
-            fa = n/2 * log10(n);
+            fa = n * log10(n);
             cout << "fa(n)=" << fa << " fэ(n)/fa(n)=" << f / fa << endl;
 
             cout << "Наилучший случай:" << endl;
+            reverse(ar_3);
             heapSort(ar_3, n);
-            fa = n;
+            fa = n * log10(n);
             cout << "fa(n)=" << fa << " fэ(n)/fa(n)=" << f / fa << endl;
 
             cout << "Наихудший случай:" << endl;
-            reverse(ar_3);
             heapSort(ar_3, n);
 
             fa = n * log10(n);
