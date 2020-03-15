@@ -4,9 +4,6 @@
 #include <cmath>
 using namespace std;
 
-
-
-
 /*    Written by Zubchenko Konstantin (7.03.2020)
  *    As homework for "Algorithmes and data structures" classes
  *    Professor: Syromyatnikov Vladislav Petrovich
@@ -16,27 +13,8 @@ using namespace std;
  *    Ошибки возможны при некорректном вводе данных.
  */
 
-
-
-unsigned long long int C = 0, M = 0, n, f;
-double fa;
-
-class Test{
-
-    public:
-    static vector<int> tests(vector<int> test){
-        //В предусловии ожидается вектор целочисленных значений
-        cout << "Введите через пробел 10 целочисленных элементов массива" << endl;
-        int m;
-        for (int i = 0;i < 10;i++)
-        {
-            cin >> m;
-            test.push_back(m);
-        }
-        return test;
-        //В постусловии ожидается вектор целочисленных значений
-};
-};
+unsigned long long int C = 0, M = 0, n;
+long double fa, f, r;
 
 static uint64_t GetTickCountMs()
 //Функция подсчета времени(взято с интернет-ресурса https://stackoverflow)
@@ -46,23 +24,38 @@ static uint64_t GetTickCountMs()
     clock_gettime(CLOCK_MONOTONIC, &ts);
 
     return (uint64_t)(ts.tv_nsec / 1000000) + ((uint64_t)ts.tv_sec * 1000ull);
+    //В постусловии ожидается целочисленное значение
 }
 
 bool compare(int a, int b)
 //В предусловии ожидаются два целочисленных аргумента
 {
     C++;
-    if (a > b)
-        return true;
-    else
-        return false;
-};
+    return a > b;
+}
 
 void reverse(int* ar_1)
 {
     for (int i = 0;i < n / 2;i++)
         swap(ar_1[i], ar_1[n - i - 1]);
 }
+
+class Test{
+
+public:
+    static vector<int> tests(vector<int> test){
+        //В предусловии ожидается вектор целочисленных значений
+        cout << "Введите через пробел 10 целочисленных элементов тестового массива" << endl;
+        int m;
+        for (int i = 0;i < 10;i++)
+        {
+            cin >> m;
+            test.push_back(m);
+        }
+        return test;
+        //В постусловии ожидается вектор целочисленных значений
+    };
+};
 
 class Shell {
 
@@ -76,7 +69,7 @@ public:
             {
                 for (int i = 0; i < 10 - d; i++) {
                     int j = i;
-                    while (j >= 0 && ar[j] > ar[j + d]) {
+                    while (j >= 0 && compare(ar[j], ar[j + d])) {
                         swap(ar[j], ar[j + d]);
                         j--;
                     }
@@ -86,9 +79,10 @@ public:
             for (int i = 0; i < 10; i++)
             cout << ar[i] << " ";
             cout << endl;
+            ar.clear();
     };
 
-    static void sort_Shell(vector<int> ar_1) {
+    static void sort_Shell(int ar[]) {
         //В предусловии ожидается вектор целочисленных значений
         long int start = GetTickCountMs();
         C = 0, M = 0;
@@ -97,8 +91,8 @@ public:
         while (d > 0) {
             for (int i = 0; i < n - d; i++) {
                 int j = i;
-                while (j >= 0 && compare(ar_1[j], ar_1[j + d])) {
-                    swap(ar_1[j], ar_1[j + d]);
+                while (j >= 0 && compare( ar[j], ar[j + d])) {
+                    swap(ar[j], ar[j + d]);
                     j--;
                     M++;
                 }
@@ -108,65 +102,247 @@ public:
         long int end = GetTickCountMs();
         long int T = end - start;
         f = C + M;
-        cout << ""
         cout << "T(n)=" << T << "\t fэ(n)=" << f << endl;
+    };
+
+    static void result_Shell(){
+            for(int i = 0;i < 5;i++)
+            {
+                n += 10000;
+                int* ar_1 = new int[n];
+                for (int j = 0; j < n; j++)
+                    ar_1[j] = rand();
+                cout << n << " элементов:" << endl;
+                cout << "Средний случай:" << endl;
+                sort_Shell(ar_1);
+                fa = n * n;
+                r = f / fa;
+                cout << "fa(n)=" << fa << "\t fэ(n)/fa(n)=" << r << endl;
+
+                cout << "Наилучший случай:" << endl;
+                sort_Shell(ar_1);
+                fa = n * log10(n) * log10(n);
+                r = f / fa;
+                cout << "fa(n)=" << fa << "\t fэ(n)/fa(n)=" << r << endl;
+
+                cout << "Наихудший случай:" << endl;
+                reverse(ar_1);
+                sort_Shell(ar_1);
+                fa = pow(n, 1.5);
+                r = f / fa;
+                cout << "fa(n)=" << fa << "\t fэ(n)/fa(n)=" << r << endl;
+
+                cout << endl;
+                delete[] ar_1;
+            }
     };
 };
 
-void Shake(int* mas)
-{
-    long int start = GetTickCountMs();
-    M = 0, C = 0;
-    int left = 1, right = n - 1;
-    bool k = false;
-    while (left <= right)
-    {
-        for (int i = right; i >= left; i--)
-        {
-            C++;
-            if (mas[i - 1] > mas[i])
-            {
-                swap(mas[i], mas[i - 1]);
-                k = true;
-                M++;
+class Shaker {
+public:
+    static void test_Shake(vector<int> ar2){
+        cout << "Отсортированный тестовый массив:";
+        int left = 1, right = 9;
+        bool k = false;
+        while (left <= right) {
+            for (int i = right; i >= left; i--) {
+                if (ar2[i - 1] > ar2[i]) {
+                    swap(ar2[i], ar2[i - 1]);
+                    k = true;
+                }
             }
-        }
-        left++;
-        if (!k) break;
-        for (int i = left; i <= right; i++)
-        {
-            C++;
-            if (mas[i - 1] > mas[i])
-            {
-                swap(mas[i], mas[i - 1]);
-                M++;
+            left++;
+            if (!k) break;
+            for (int i = left; i <= right; i++) {
+                if (ar2[i - 1] > ar2[i]) {
+                    swap(ar2[i], ar2[i - 1]);
+                }
             }
+            right--;
         }
-        right--;
+        for(int i=0;i<10;i++)
+            cout << ar2[i] << " " ;
+            cout << endl;
+    };
+    static void sort_Shake(int *ar2) {
+        long int start = GetTickCountMs();
+        M = 0, C = 0;
+        int left = 1, right = n - 1;
+        bool k = false;
+        while (left <= right) {
+            for (int i = right; i >= left; i--) {
+                C++;
+                if (ar2[i - 1] > ar2[i]) {
+                    swap(ar2[i], ar2[i - 1]);
+                    k = true;
+                    M++;
+                }
+            }
+            left++;
+            if (!k) break;
+            for (int i = left; i <= right; i++) {
+                C++;
+                if (ar2[i - 1] > ar2[i]) {
+                    swap(ar2[i], ar2[i - 1]);
+                    M++;
+                }
+            }
+            right--;
+        }
+        long int end = GetTickCountMs();
+        long int T = end - start;
+        f = C + M;
+        cout << "T(n)=" << T << " fэ(n)=" << f << endl;
     }
-    long int end = GetTickCountMs();
-    long int T = end - start;
-    f = C + M;
-    cout << "T(n)=" << T << " fэ(n)=" << f << endl;
-}
+    static void result_Shake(){
+        for (int i = 0;i < 5;i++)
+        {
+            n += 10000;
+            int* ar_2 = new int[n];
+            for (int i = 0;i < n;i++)
+                ar_2[i] = rand();
+            cout << n << " элементов:" << endl;
+            cout << "Средний случай:" << endl;
+            sort_Shake(ar_2);
+            fa = n * n;
+            cout << "fa(n)=" << fa << " fэ(n)/fa(n)=" << f / fa << endl;
 
+            cout << "Наилучший случай:" << endl;
+            sort_Shake(ar_2);
+            fa = n;
+            cout << "fa(n)=" << fa << " fэ(n)/fa(n)=" << f / fa << endl;
+
+            cout << "Наихудший случай:" << endl;
+            reverse(ar_2);
+            sort_Shake(ar_2);
+
+            fa = n * n;
+            cout << "fa(n)=" << fa << " fэ(n)/fa(n)=" << f / fa << endl;
+
+            cout << endl;
+            delete[] ar_2;
+        }};
+};
+
+class Heap{
+public:
+    static void test_Heap(){
+        int* ar3 = new int[10];
+        cout << "Введите через пробел 10 целочисленных элементов тестового массива" << endl;
+        for (int i = 0;i < 10;i++) {
+            cin >> ar3[i];
+        }
+
+        heapSort(ar3, 10);
+
+        for (int i = 0;i < 10;i++) {
+            cout << ar3[i] << " ";
+        }
+        cout << '\n';
+        delete[] ar3;
+    };
+
+    static void shiftDown(int *numbers, int root, int bottom)
+    {
+        int maxChild; // индекс максимального потомка
+        int done = 0; // флаг того, что куча сформирована
+        // Пока не дошли до последнего ряда
+        while ((root * 2 <= bottom) && (!done)) {
+            if (root * 2 == bottom) {    // если мы в последнем ряду,
+                maxChild = root * 2;
+              // запоминаем левый потомок
+            C++;
+            // иначе запоминаем больший потомок из двух
+        }   else if (numbers[root * 2] > numbers[root * 2 + 1]) {
+            maxChild = root * 2;
+            C++;
+        } else{
+                maxChild = root * 2 + 1;
+                C++;}
+            // если элемент вершины меньше максимального потомка
+            if (numbers[root] < numbers[maxChild])
+            {
+                int temp = numbers[root]; // меняем их местами
+                numbers[root] = numbers[maxChild];
+                numbers[maxChild] = temp;
+                root = maxChild;
+                M++;
+                C++;
+            }
+            else // иначе
+                done = 1; // пирамида сформирована
+        }
+    }
+    static void heapSort(int *numbers, int array_size)
+        {
+            // Формируем нижний ряд пирамиды
+            for (int i = (array_size / 2) - 1; i >= 0; i--)
+                shiftDown(numbers, i, array_size - 1);
+            // Просеиваем через пирамиду остальные элементы
+            for (int i = array_size - 1; i >= 1; i--)
+            {
+                int temp = numbers[0];
+                numbers[0] = numbers[i];
+                numbers[i] = temp;
+                shiftDown(numbers, 0, i - 1);
+            }
+        };
+
+    static void resultHeap() {
+        for (int i = 0;i < 5;i++)
+        {
+            n += 10000;
+            int* ar_3 = new int[n];
+            for (int i = 0;i < n;i++)
+                ar_3[i] = rand();
+            cout << n << " элементов:" << endl;
+            cout << "Средний случай:" << endl;
+            heapSort(ar_3, n);
+            fa = n/2 * log10(n);
+            cout << "fa(n)=" << fa << " fэ(n)/fa(n)=" << f / fa << endl;
+
+            cout << "Наилучший случай:" << endl;
+            heapSort(ar_3, n);
+            fa = n;
+            cout << "fa(n)=" << fa << " fэ(n)/fa(n)=" << f / fa << endl;
+
+            cout << "Наихудший случай:" << endl;
+            reverse(ar_3);
+            heapSort(ar_3, n);
+
+            fa = n * log10(n);
+            cout << "fa(n)=" << fa << " fэ(n)/fa(n)=" << f / fa << endl;
+
+            cout << endl;
+            delete[] ar_3;
+        }
+    };
+};
 int main()
 {
     setlocale(LC_ALL, "Rus");
-    n = 50000;
+    n = 10000;
     int select;
     cout << "Выберите сортировку:\n1 - Сортировка Шелла\n2 - Шейкерная сортировка\n3 - Пирамидальная сортировка" << endl;
     cin >> select;
     cout << endl;
     if (select == 1)
     {
-        cout << "Вы выбрали сортировку Шелла." << endl;
+        cout << "Вы выбрали сортировку Шелла.\n";
         vector<int> ar;
         ar = Test::tests(ar);//В постусловии и предусловии ожидается вектор целочисленных значений
-       Shell::test_Shell(ar);//В предусловии ожидается вектор целочисленных значений
-       Shell::sort_Shell(ar);//В предусловии ожидается вектор целочисленных значений
+        Shell::test_Shell(ar);//В предусловии ожидается вектор целочисленных значений
+        Shell::result_Shell();
         }
     else if(select == 2){
-
+        cout << "Вы выбрали Шейкерную сортировку.\n";
+        vector<int> ar2;
+        ar2 = Test::tests(ar2);
+        Shaker::test_Shake(ar2);
+        Shaker::result_Shake();
+    } else if(select == 3){
+        cout << "Вы выбрали пирамидальную сортировку.\n";
+        Heap::test_Heap();
+        Heap::resultHeap();
     }
     }
