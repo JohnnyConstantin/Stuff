@@ -102,7 +102,7 @@ public:
         long int end = GetTickCountMs();
         long int T = end - start;
         f = C + M;
-        cout << "T(n)=" << T << "\t fэ(n)=" << f << endl;
+        cout << "T(n)=" << T << "\t\t\t fэ(n)=" << f << endl;
     };
 
     static void result_Shell(){
@@ -130,7 +130,7 @@ public:
                 sort_Shell(ar_1);
                 fa = pow(n, 1.5);
                 r = f / fa;
-                cout << "fa(n)=" << fa << "\t fэ(n)/fa(n)=" << r << endl;
+                cout << "fa(n)=" << fa << "\t\t fэ(n)/fa(n)=" << r << endl;
 
                 cout << endl;
                 delete[] ar_1;
@@ -141,6 +141,7 @@ public:
 class Shaker {
 public:
     static void test_Shake(vector<int> ar2){
+        //В предусловии ожидается вектор целочисленных значений
         cout << "Отсортированный тестовый массив:";
         int left = 1, right = 9;
         bool k = false;
@@ -165,6 +166,7 @@ public:
             cout << endl;
     };
     static void sort_Shake(int *ar2) {
+        //В предусловии ожидается целочисленный массив
         long int start = GetTickCountMs();
         M = 0, C = 0;
         int left = 1, right = n - 1;
@@ -192,7 +194,7 @@ public:
         long int end = GetTickCountMs();
         long int T = end - start;
         f = C + M;
-        cout << "T(n)=" << T << " fэ(n)=" << f << endl;
+        cout << "T(n)=" << T << "\t\t\t fэ(n)=" << f << endl;
     }
     static void result_Shake(){
         for (int i = 0;i < 5;i++)
@@ -205,19 +207,19 @@ public:
             cout << "Средний случай:" << endl;
             sort_Shake(ar_2);
             fa = n * n;
-            cout << "fa(n)=" << fa << " fэ(n)/fa(n)=" << f / fa << endl;
+            cout << "fa(n)=" << fa << "\t fэ(n)/fa(n)=" << f / fa << endl;
 
             cout << "Наилучший случай:" << endl;
             sort_Shake(ar_2);
             fa = n;
-            cout << "fa(n)=" << fa << " fэ(n)/fa(n)=" << f / fa << endl;
+            cout << "fa(n)=" << fa << "\t fэ(n)/fa(n)=" << f / fa << endl;
 
             cout << "Наихудший случай:" << endl;
             reverse(ar_2);
             sort_Shake(ar_2);
 
             fa = n * n;
-            cout << "fa(n)=" << fa << " fэ(n)/fa(n)=" << f / fa << endl;
+            cout << "fa(n)=" << fa << "\t fэ(n)/fa(n)=" << f / fa << endl;
 
             cout << endl;
             delete[] ar_2;
@@ -233,10 +235,15 @@ public:
             cin >> ar3[i];
         }
 
+<<<<<<< HEAD
         // Формируем нижний ряд пирамиды
         for (int i = (10 / 2) - 1; i >= 0; i--)
             shiftDown(ar3, i,10 - 1);
         // Просеиваем через пирамиду остальные элементы
+=======
+        for (int i = (10 / 2) - 1; i >= 0; i--)
+            shiftDown(ar3, i, 10 - 1);
+>>>>>>> dev
         for (int i = 10 - 1; i >= 1; i--)
         {
             int temp = ar3[0];
@@ -253,11 +260,12 @@ public:
     };
 
     static void shiftDown(int *numbers, int root, int bottom)
+    //В предусловии ожидается целочисленный массив, и 2 целочисленных значения любого знака
     {
-        int maxChild; // индекс максимального потомка
-        int done = 0; // флаг того, что куча сформирована
-        // Пока не дошли до последнего ряда
+        int maxChild;
+        int done = 0;
         while ((root * 2 <= bottom) && (!done)) {
+<<<<<<< HEAD
             if (root * 2 == bottom){    // если мы в последнем ряду,
                 maxChild = root * 2;
                 ;}
@@ -270,37 +278,62 @@ public:
                 maxChild = root * 2 + 1;
                 ;}
             // если элемент вершины меньше максимального потомка
+=======
+            if (root * 2 == bottom) {
+                maxChild = root * 2;
+            ;
+        }   else if (numbers[root * 2] > numbers[root * 2 + 1]) {
+            maxChild = root * 2;
+            ;
+        } else{
+                maxChild = root * 2 + 1;
+                ;}
+>>>>>>> dev
             if (numbers[root] < numbers[maxChild])
             {
-                int temp = numbers[root]; // меняем их местами
+                int temp = numbers[root];
                 numbers[root] = numbers[maxChild];
                 numbers[maxChild] = temp;
                 root = maxChild;
                 C++;
             }
-            else // иначе
+            else
                 done = 1; // пирамида сформирована
         }
     }
+
     static void heapSort(int *numbers, int array_size)
+    //В предусловии ожидается целочисленный массив и целочисленное значение больше нуля
         {
             long int start = GetTickCountMs();
+<<<<<<< HEAD
             M =0, C=0;
             // Формируем нижний ряд пирамиды
             for (int i = (array_size / 2) - 1; i >= 0; i--){
                 shiftDown(numbers, i, array_size - 1);}
             // Просеиваем через пирамиду остальные элементы
+=======
+            C=0, M=0;
+            for (int i = (array_size / 2) - 1; i >= 0; i--){
+                shiftDown(numbers, i, array_size - 1);
+            ;}
+>>>>>>> dev
             for (int i = array_size - 1; i >= 1; i--)
             {
                 int temp = numbers[0];
                 numbers[0] = numbers[i];
                 numbers[i] = temp;
                 shiftDown(numbers, 0, i - 1);
+               C++;
             }
             long int end = GetTickCountMs();
             long int T = end - start;
             f = C + M;
+<<<<<<< HEAD
             cout << "T(n)=" << T << " fэ(n)=" << f << endl;
+=======
+            cout << "T(n)=" << T << "\t\t\t fэ(n)=" << f << endl;
+>>>>>>> dev
         };
 
     static void resultHeap() {
@@ -314,19 +347,27 @@ public:
             cout << "Средний случай:" << endl;
             heapSort(ar_3, n);
             fa = n * log10(n);
+<<<<<<< HEAD
             cout << "fa(n)=" << fa << " fэ(n)/fa(n)=" << f / fa << endl;
+=======
+            cout << "fa(n)=" << fa << "\t fэ(n)/fa(n)=" << f / fa << endl;
+>>>>>>> dev
 
             cout << "Наилучший случай:" << endl;
             reverse(ar_3);
             heapSort(ar_3, n);
             fa = n * log10(n);
+<<<<<<< HEAD
             cout << "fa(n)=" << fa << " fэ(n)/fa(n)=" << f / fa << endl;
+=======
+            cout << "fa(n)=" << fa << "\t fэ(n)/fa(n)=" << f / fa << endl;
+>>>>>>> dev
 
             cout << "Наихудший случай:" << endl;
             heapSort(ar_3, n);
 
             fa = n * log10(n);
-            cout << "fa(n)=" << fa << " fэ(n)/fa(n)=" << f / fa << endl;
+            cout << "fa(n)=" << fa << "\t fэ(n)/fa(n)=" << f / fa << endl;
 
             cout << endl;
             delete[] ar_3;
@@ -352,8 +393,8 @@ int main()
     else if(select == 2){
         cout << "Вы выбрали Шейкерную сортировку.\n";
         vector<int> ar2;
-        ar2 = Test::tests(ar2);
-        Shaker::test_Shake(ar2);
+        ar2 = Test::tests(ar2);//В предусловии ожидается целочисленный вектор
+        Shaker::test_Shake(ar2);//В предусловии ожидается целочисленный вектор
         Shaker::result_Shake();
     } else if(select == 3){
         cout << "Вы выбрали пирамидальную сортировку.\n";
