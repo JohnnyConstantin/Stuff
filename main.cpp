@@ -347,12 +347,16 @@ public:
             cout << "Средний случай:" << endl;
             heapSort(ar_3, n);
 <<<<<<< HEAD
+<<<<<<< HEAD
             fa = n * log10(n);
 <<<<<<< HEAD
             cout << "fa(n)=" << fa << " fэ(n)/fa(n)=" << f / fa << endl;
 =======
 =======
             fa = n * log10(n) * log10(n);
+>>>>>>> dev
+=======
+            fa = n * log2(n) * log2(n);
 >>>>>>> dev
             cout << "fa(n)=" << fa << "\t fэ(n)/fa(n)=" << f / fa << endl;
 >>>>>>> dev
@@ -361,6 +365,7 @@ public:
             reverse(ar_3);
             heapSort(ar_3, n);
 <<<<<<< HEAD
+<<<<<<< HEAD
             fa = n * log10(n);
 <<<<<<< HEAD
             cout << "fa(n)=" << fa << " fэ(n)/fa(n)=" << f / fa << endl;
@@ -368,13 +373,16 @@ public:
 =======
             fa = n * log10(n) * log10(n);
 >>>>>>> dev
+=======
+            fa = n * log2(n) * log2(n);
+>>>>>>> dev
             cout << "fa(n)=" << fa << "\t fэ(n)/fa(n)=" << f / fa << endl;
 >>>>>>> dev
 
             cout << "Наихудший случай:" << endl;
             heapSort(ar_3, n);
 
-            fa = n * log10(n) * log10(n);
+            fa = n * log2(n) * log2(n);
             cout << "fa(n)=" << fa << "\t fэ(n)/fa(n)=" << f / fa << endl;
 
             cout << endl;

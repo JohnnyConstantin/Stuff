@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Bets</string>
+    <string name="hello">Hello World, SimpleDBActivity!</string>
+    <string name="title">Чемпионат мира по футболу</string>
+    <string name="teamhomefield">Команда 1</string>
+    <string name="teamguestfield">Команда 2</string>
+    <string name="betshomefield">Ставки на команду 1</string>
+    <string name="betsguestfield">Ставки на команду 2</string>
+    <string name="save">Сделать ставку</string>
+    <string name="edit">Редактировать</string>
+    <string name="delete">Удалить</string>
+    <string name="cancel">Отмена</string>
+    <string name="icon">Icon</string>
+    <string name="deleteAll">Удалить все</string>
+    <string name="exit">Выход</string>
+    <string name="add">Добавить</string>
+</resources>
