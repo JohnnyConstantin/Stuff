@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">Bets</string>
+    <string name="app_name">Betting</string>
     <string name="hello">Hello World, SimpleDBActivity!</string>
     <string name="title">Чемпионат мира по футболу</string>
-    <string name="teamhomefield">Команда 1</string>
-    <string name="teamguestfield">Команда 2</string>
-    <string name="betshomefield">Ставки на команду 1</string>
-    <string name="betsguestfield">Ставки на команду 2</string>
-    <string name="save">Сделать ставку</string>
+    <string name="teamhomefield">Команда хозяев</string>
+    <string name="teamguestfield">Команда гостей</string>
+    <string name="betshomefield">Ставки на хозяев</string>
+    <string name="betsguestfield">Ставки на гостей</string>
+    <string name="save">Сохранить</string>
     <string name="edit">Редактировать</string>
     <string name="delete">Удалить</string>
     <string name="cancel">Отмена</string>
