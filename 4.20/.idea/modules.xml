@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/4.20.iml" filepath="$PROJECT_DIR$/4.20.iml" group="4.20" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="4.20/app" />
     </modules>
   </component>
 </project>
