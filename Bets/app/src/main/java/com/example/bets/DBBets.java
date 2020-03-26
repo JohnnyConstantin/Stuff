@@ -29,12 +29,12 @@ public class DBBets {
 
     private SQLiteDatabase mDataBase;
 
-    DBBets(Context context){
+    DBBets(Context context) {
         OpenHelper openHelper = new OpenHelper(context);
         mDataBase = openHelper.getWritableDatabase();
     }
 
-    public long insert(Bet bet){
+    public long insert(Bet bet) {
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_NAME_TEAM_HOME, bet.getTeamHome());
         cv.put(COLUMN_NAME_TEAM_GUEST, bet.getTeamGuest());
@@ -43,16 +43,16 @@ public class DBBets {
         return mDataBase.insert(TABLE_NAME, null, cv);
     }
 
-    public void deleteAll(){
+    public void deleteAll() {
         mDataBase.delete(TABLE_NAME, null, null);
     }
 
-    public void delete(int id){
+    public void delete(int id) {
         mDataBase.delete(TABLE_NAME, COLUMN_ID + " = ?",
                 new String[]{String.valueOf(id)});
     }
 
-    public Bet select(int id){
+    public Bet select(int id) {
         Cursor cursor = mDataBase.query(TABLE_NAME, null, COLUMN_ID + " = ?",
                 new String[]{String.valueOf(id)}, null, null, null);
 
@@ -66,17 +66,17 @@ public class DBBets {
         return new Bet(id, teamHome, teamGuest, betTeamHome, betTeamGuest);
     }
 
-    public  int getLastId(){
+    public int getLastId() {
         Cursor cursor = mDataBase.query(TABLE_NAME, null, null,
                 null, null, null, null);
 
-        if(!cursor.moveToLast())
+        if (!cursor.moveToLast())
             return -1;
 
         return cursor.getInt(NUM_COLUMN_ID);
     }
 
-    public ArrayList<Bet> selectAll(){
+    public ArrayList<Bet> selectAll() {
         Cursor cursor = mDataBase.query(TABLE_NAME, null, null,
                 null, null, null, null);
 
@@ -84,7 +84,7 @@ public class DBBets {
 
         cursor.moveToFirst();
 
-        if(!cursor.isAfterLast()){
+        if (!cursor.isAfterLast()) {
             do {
                 int id = cursor.getInt(NUM_COLUMN_ID);
                 String teamHome = cursor.getString(NUM_COLUMN_TEAMHOME);
@@ -93,7 +93,7 @@ public class DBBets {
                 int betTeamGuest = cursor.getInt(NUM_COLUMN_BETGUEST);
 
                 arr.add(new Bet(id, teamHome, teamGuest, betTeamHome, betTeamGuest));
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
 
         return arr;
@@ -122,3 +122,4 @@ public class DBBets {
             onCreate(db);
         }
     }
+}
