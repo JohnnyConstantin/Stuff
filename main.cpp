@@ -14,6 +14,7 @@ using namespace std;
  */
 
 unsigned long long C = 0, D = 0, N;
+unsigned long t;
 
 class Test{
 
@@ -35,7 +36,7 @@ public:
 class Binary{
 public:
      static void search(unsigned long long n, int key){
-         int t = Gettickcount();
+         t = clock();
          int arr[n]; // создали массив на n элементов
          srand(time(NULL));
          for (unsigned long long i = 0; i < n; i++) {
@@ -56,7 +57,7 @@ public:
              if (arr[mid] > key) r = mid - 1; // проверяем, какую часть нужно отбросить
              else l = mid + 1;
          }
-
+        t = clock() - t;
          if (flag) cout << "Индекс элемента " << key << " в массиве равен: " << mid;
          else cout << "\nИзвините, но такого элемента в массиве нет";
      }
@@ -69,6 +70,7 @@ public:
          cout << "\nВведите ключ\n";
          cin >> key;
          Binary::search(N, key);
+
         cout<<"\n====================================";
          N += 100000;
          cout << "\n\nКоличество элементов массива:" << N;
