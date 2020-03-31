@@ -4,7 +4,7 @@
 #include <cmath>
 using namespace std;
 
-/*    Written by Zubchenko Konstantin (7.03.2020)
+/*    Written by Zubchenko Konstantin (25.03.2020)
  *    As homework for "Algorithmes and data structures" classes
  *    Professor: Syromyatnikov Vladislav Petrovich
  *
@@ -13,189 +13,112 @@ using namespace std;
  *    Ошибки возможны при некорректном вводе данных.
  */
 
-unsigned long long int C = 0, M = 0, n;
-long double fa, f, r;
+unsigned long long  C = 0, //Количество сравнений
+                    D = 0, //Глубина рекурсии
+                    N;     //Количество элементов
+unsigned long t;           //Переменная времени
 
-static uint64_t GetTickCountMs()
-//Функция подсчета времени(взято с интернет-ресурса https://stackoverflow)
-{
-    struct timespec ts{};
 
-    clock_gettime(CLOCK_MONOTONIC, &ts);
 
-    return (uint64_t)(ts.tv_nsec / 1000000) + ((uint64_t)ts.tv_sec * 1000ull);
-    //В постусловии ожидается целочисленное значение
-}
+void insertionSort(unsigned long long n, int mas[n]){
+//В предусловии ожидается целочисленное значение типа unsigned long long и массив целочисленных значений
+    for (int j = 1; j < n; j++){
+        int key1 = mas[j];
+        int i = j - 1;
 
-bool compare(int a, int b)
-//В предусловии ожидаются два целочисленных аргумента
-{
-    C++;
-    return a > b;
-}
-
-void reverse(int* ar_1)
-{
-    for (int i = 0;i < n / 2;i++)
-        swap(ar_1[i], ar_1[n - i - 1]);
-}
-
-class Test{
-
-public:
-    static vector<int> tests(vector<int> test){
-        //В предусловии ожидается вектор целочисленных значений
-        cout << "Введите через пробел 10 целочисленных элементов тестового массива" << endl;
-        int m;
-        for (int i = 0;i < 10;i++)
-        {
-            cin >> m;
-            test.push_back(m);
+        while (i >= 0 && mas[i] > key1){
+            mas[i + 1] = mas[i];
+            i--;
         }
-        return test;
-        //В постусловии ожидается вектор целочисленных значений
-    };
-};
-
-class Shell {
-
-public:
-    static void test_Shell(vector<int> ar){
-        //В предусловии ожидается вектор целочисленных значений
-        cout << "Отсортированный тестовый массив: ";
-            int d = 10;
-            d = d / 2;
-            while (d > 0)
-            {
-                for (int i = 0; i < 10 - d; i++) {
-                    int j = i;
-                    while (j >= 0 && compare(ar[j], ar[j + d])) {
-                        swap(ar[j], ar[j + d]);
-                        j--;
-                    }
-                }
-                d = d / 2;
-            }
-            for (int i = 0; i < 10; i++)
-            cout << ar[i] << " ";
-            cout << endl;
-            ar.clear();
-    };
-
-    static void sort_Shell(int ar[]) {
-        //В предусловии ожидается вектор целочисленных значений
-        long int start = GetTickCountMs();
-        C = 0, M = 0;
-        int d = n;
-        d = d / 2;
-        while (d > 0) {
-            for (int i = 0; i < n - d; i++) {
-                int j = i;
-                while (j >= 0 && compare( ar[j], ar[j + d])) {
-                    swap(ar[j], ar[j + d]);
-                    j--;
-                    M++;
-                }
-            }
-            d = d / 2;
-        }
-        long int end = GetTickCountMs();
-        long int T = end - start;
-        f = C + M;
-        cout << "T(n)=" << T << "\t\t\t fэ(n)=" << f << endl;
-    };
-
-    static void result_Shell(){
-            for(int i = 0;i < 5;i++)
-            {
-                n += 10000;
-                int* ar_1 = new int[n];
-                for (int j = 0; j < n; j++)
-                    ar_1[j] = rand();
-                cout << n << " элементов:" << endl;
-                cout << "Средний случай:" << endl;
-                sort_Shell(ar_1);
-                fa = n * n;
-                r = f / fa;
-                cout << "fa(n)=" << fa << "\t fэ(n)/fa(n)=" << r << endl;
-
-                cout << "Наилучший случай:" << endl;
-                sort_Shell(ar_1);
-                fa = n * log10(n) * log10(n);
-                r = f / fa;
-                cout << "fa(n)=" << fa << "\t fэ(n)/fa(n)=" << r << endl;
-
-                cout << "Наихудший случай:" << endl;
-                reverse(ar_1);
-                sort_Shell(ar_1);
-                fa = pow(n, 1.5);
-                r = f / fa;
-                cout << "fa(n)=" << fa << "\t\t fэ(n)/fa(n)=" << r << endl;
-
-                cout << endl;
-                delete[] ar_1;
-            }
-    };
-};
-
-class Shaker {
-public:
-    static void test_Shake(vector<int> ar2){
-        //В предусловии ожидается вектор целочисленных значений
-        cout << "Отсортированный тестовый массив:";
-        int left = 1, right = 9;
-        bool k = false;
-        while (left <= right) {
-            for (int i = right; i >= left; i--) {
-                if (ar2[i - 1] > ar2[i]) {
-                    swap(ar2[i], ar2[i - 1]);
-                    k = true;
-                }
-            }
-            left++;
-            if (!k) break;
-            for (int i = left; i <= right; i++) {
-                if (ar2[i - 1] > ar2[i]) {
-                    swap(ar2[i], ar2[i - 1]);
-                }
-            }
-            right--;
-        }
-        for(int i=0;i<10;i++)
-            cout << ar2[i] << " " ;
-            cout << endl;
-    };
-    static void sort_Shake(int *ar2) {
-        //В предусловии ожидается целочисленный массив
-        long int start = GetTickCountMs();
-        M = 0, C = 0;
-        int left = 1, right = n - 1;
-        bool k = false;
-        while (left <= right) {
-            for (int i = right; i >= left; i--) {
-                C++;
-                if (ar2[i - 1] > ar2[i]) {
-                    swap(ar2[i], ar2[i - 1]);
-                    k = true;
-                    M++;
-                }
-            }
-            left++;
-            if (!k) break;
-            for (int i = left; i <= right; i++) {
-                C++;
-                if (ar2[i - 1] > ar2[i]) {
-                    swap(ar2[i], ar2[i - 1]);
-                    M++;
-                }
-            }
-            right--;
-        }
-        long int end = GetTickCountMs();
-        long int T = end - start;
-        f = C + M;
-        cout << "T(n)=" << T << "\t\t\t fэ(n)=" << f << endl;
+        mas[i + 1] = key1;
     }
+}
+
+class Binary{
+public:
+     static void search(unsigned long long n, int arr[n], int key){
+         //В предусловии ожидается целочисленное значение типа unsigned long long, массив целочисленных значений и
+         //целочисленное значение ключа поиска
+         t = clock();
+          // создали массив на n элементов
+         srand(time(NULL));
+         for (unsigned long long i = 0; i < n; i++) {
+             arr[i] = rand()%100000; // считываем элементы массива
+         }
+
+        //insertionSort(n, arr); // сортируем с помощью функции
+        sort(arr, arr + n);
+
+         bool flag = false;
+         unsigned long long l = 0; // левая граница
+         unsigned long long r = n-1; // правая граница
+         unsigned long long mid;
+
+         while (l <= r && !flag) {
+             D++;
+             mid = (l + r) / 2; // считываем срединный индекс отрезка [l,r]
+
+             if (arr[mid] == key) {flag = true; C++;} //проверяем ключ со серединным элементом
+             if (arr[mid] > key) {r = mid - 1;C++;} // проверяем, какую часть нужно отбросить
+             else {l = mid + 1;C++;}
+         }
+        t = clock() - t;
+         if (flag) cout << "Индекс элемента " << key << " в массиве равен: " << mid;
+         else cout << "\nИзвините, но такого элемента в массиве нет";
+         cout << "\nВремя T(n) = " << t << "\t\tf(э) = " << C;
+         cout << "\nf(a) = " << log2(n) << "\t\tf(э)/f(a) = " << C/log2(n);
+         t=0;
+         C=0;
+         cout << "\nГлубина рекурсии составила: " << D;
+     }
+
+     static void result_search(){
+
+         N = 400000;
+         cout<<"\n====================================\n";
+         int key;
+         cout << "Количество элементов массива:" << N;
+         cout << "\nВведите ключ\n";
+         cin >> key;
+         int arr[N];
+         Binary::search(N, arr, key);   //В предусловии ожидается целочисленное значение типа unsigned long long, массив целочисленных значений и
+                                        //целочисленное значение ключа поиска
+         D=0;
+
+        cout<<"\n====================================";
+         N += 100000;
+         cout << "\n\nКоличество элементов массива:" << N;
+         cout << "\nВведите ключ\n";
+         cin >> key;
+         int arr1[N];
+         Binary::search(N,arr1, key);   //В предусловии ожидается целочисленное значение типа unsigned long long, массив целочисленных значений и
+                                        //целочисленное значение ключа поиска
+         D=0;
+
+         cout<<"\n====================================";
+         N += 100000;
+         cout << "\n\nКоличество элементов массива:" << N;
+         cout << "\nВведите ключ\n";
+         cin >> key;
+         int arr2[N];
+         Binary::search(N, arr2, key);  //В предусловии ожидается целочисленное значение типа unsigned long long, массив целочисленных значений и
+                                        //целочисленное значение ключа поиска
+         D=0;
+     }
+};
+int main()
+{
+    setlocale(LC_ALL, "Rus");
+    cout << "Здравствуйте, введите, пожалуйста тестовый массив для бинарного поиска:\n" << endl;
+    int ar[8];
+    int key0;
+    int m;
+    for (int i = 0;i < 8;i++)
+    {
+        cin >> m;
+        ar[i] = m;
+    }
+<<<<<<< HEAD
     static void result_Shake(){
         for (int i = 0;i < 5;i++)
         {
@@ -378,43 +301,31 @@ public:
 >>>>>>> dev
             cout << "fa(n)=" << fa << "\t fэ(n)/fa(n)=" << f / fa << endl;
 >>>>>>> dev
-
-            cout << "Наихудший случай:" << endl;
-            heapSort(ar_3, n);
-
-            fa = n * log2(n) * log2(n);
-            cout << "fa(n)=" << fa << "\t fэ(n)/fa(n)=" << f / fa << endl;
-
-            cout << endl;
-            delete[] ar_3;
-        }
-    };
-};
-int main()
-{
-    setlocale(LC_ALL, "Rus");
-    n = 10000;
-    int select;
-    cout << "Выберите сортировку:\n1 - Сортировка Шелла\n2 - Шейкерная сортировка\n3 - Пирамидальная сортировка" << endl;
-    cin >> select;
-    cout << endl;
-    if (select == 1)
+=======
+    cout << "Введите ключ\n";
+    cin >> key0;
+    insertionSort(8, ar);
+    cout << "Отсортированный массив: ";
+    for (int i : ar)
     {
-        cout << "Вы выбрали сортировку Шелла.\n";
-        vector<int> ar;
-        ar = Test::tests(ar);//В постусловии и предусловии ожидается вектор целочисленных значений
-        Shell::test_Shell(ar);//В предусловии ожидается вектор целочисленных значений
-        Shell::result_Shell();
-        }
-    else if(select == 2){
-        cout << "Вы выбрали Шейкерную сортировку.\n";
-        vector<int> ar2;
-        ar2 = Test::tests(ar2);//В предусловии ожидается целочисленный вектор
-        Shaker::test_Shake(ar2);//В предусловии ожидается целочисленный вектор
-        Shaker::result_Shake();
-    } else if(select == 3){
-        cout << "Вы выбрали пирамидальную сортировку.\n";
-        Heap::test_Heap();
-        Heap::resultHeap();
+        cout << i << " ";
     }
+
+    bool flag = false;
+    unsigned long long l = 0; // левая граница
+    unsigned long long r = 7; // правая граница
+    unsigned long long mid;
+>>>>>>> dev
+
+    while (l <= r && !flag) {
+        mid = (l + r) / 2; // считываем срединный индекс отрезка [l,r]
+
+        if (ar[mid] == key0) flag = true; //проверяем ключ со серединным элементом
+        if (ar[mid] > key0) r = mid - 1; // проверяем, какую часть нужно отбросить
+        else l = mid + 1;
     }
+    if (flag) cout << "\nИндекс элемента " << key0 << " в массиве равен: " << mid;
+    else cout << "\nИзвините, но такого элемента в массиве нет";
+
+    Binary::result_search();
+}
