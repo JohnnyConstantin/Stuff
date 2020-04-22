@@ -1,10 +1,7 @@
 #include <iostream>
-#include <cstdlib>
 #include <vector>
-#include <cmath>
 using namespace std;
 
-# define NO_OF_CHARS 256
 /* Written by Zubchenko Konstantin (22.04.2020)
 * As homework for "Algorithmes and data structures" lab №6
 * Professor: Syromyatnikov Vladislav Petrovich
@@ -13,6 +10,10 @@ using namespace std;
 * Опущена проверка пред- и постусловий в функциях в связи с узкой направленностью программы.
 * Ошибки возможны при некорректном вводе данных.
 */
+
+long long int C = 0;
+long long int M = 0;
+# define NO_OF_CHARS 256
 
 // A utility function to get maximum of two integers
     int max(int a, int b)
@@ -48,19 +49,25 @@ using namespace std;
         {
             int j = m - 1;
 
-            while (j >= 0 && pat[j] == txt[s + j])
+            while (j >= 0 && pat[j] == txt[s + j]) {
                 j--;
-
+                C++;
+            }
             if (j < 0)
             {
                 printf("\n pattern occurs at shift = %d", s);
+                cout << "\n" << M;
+                cout << "\n" << C;
 
                 s += (s + m < n) ? m - badchar[txt[s + m]] : 1;
 
             }
 
-            else
+            else {
                 s += max(1, j - badchar[txt[s + j]]);
+                C++;
+                M++;
+            }
         }
     }
 
