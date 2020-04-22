@@ -13,24 +13,6 @@ using namespace std;
 * Ошибки возможны при некорректном вводе данных.
 */
 
-unsigned long long C = 0, //Количество сравнений
-        D = 0, //Глубина рекурсии
-        N; //Количество элементов
-unsigned long t; //Переменная времени
-
-void insertionSort(unsigned long long n, int mas[n]){
-//В предусловии ожидается целочисленное значение типа unsigned long long и массив целочисленных значений
-    for (int j = 1; j < n; j++){
-        int key1 = mas[j];
-        int i = j - 1;
-
-        while (i >= 0 && mas[i] > key1){
-            mas[i + 1] = mas[i];
-            i--;
-        }
-        mas[i + 1] = key1;
-    }
-}
 
 class Binary{
 public:
