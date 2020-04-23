@@ -90,7 +90,7 @@ void create_file(string name, char *what,long long int n){
     }
     file.close();
 }
-string create_arr(string name){
+    string create_arr(string name){
     ifstream file(name);
     string mas;
     getline(file, mas);
@@ -98,7 +98,7 @@ string create_arr(string name){
     return mas;
 }
 
-string test_arr(){
+    string test_arr(){
         string test = "asdfghjklo";
         cout << "Введите тестовый массив для поиска строки " << par << endl;
         for(int i = 0; i < 10; i++){
