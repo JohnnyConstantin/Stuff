@@ -18,7 +18,7 @@ long long int M = -1;
 # define NO_OF_CHARS 256
 
 char par[] = "ABC";
-long long int N = 100000;
+long long int N = 300000;
 bool found;
 int T, T2;
 
@@ -63,7 +63,7 @@ int T, T2;
                 j--;
                 C++;
             }
-            if (j <= 0)
+            if (j < 0)
             {
                 printf("Искомое слово находится на %d позиции", s);
                 found = true;
@@ -135,7 +135,7 @@ void create_file(string name, char *what,long long int n){
         T2=0;
 
 
-        cout << "\n\n=============================================\nКонтрольный прогон программы:";
+        cout << "\n\n=============================================\nКонтрольный прогон программы:\nРазмер массива: " << N;
 
         cout << "\n\nСредний случай:\n";
         create_file(path, par, N);
@@ -148,7 +148,7 @@ void create_file(string name, char *what,long long int n){
         T2=0;
 
          cout << "\n\nНаихудший случай \n";
-        string pat2 = "??J";
+        string pat2 = "QJKLZ";
         T=clock();
         string txt2 = create_arr(path);
         search(txt2, pat2);
