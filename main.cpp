@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <fstream>
+
 using namespace std;
 
 /* Written by Zubchenko Konstantin (22.04.2020)
@@ -11,9 +13,14 @@ using namespace std;
 * Ошибки возможны при некорректном вводе данных.
 */
 
-long long int C = 0;
-long long int M = 0;
+long long int C = -1;
+long long int M = -1;
 # define NO_OF_CHARS 256
+
+char par[] = "ABC";
+long long int N = 100000;
+bool found;
+int T, T2;
 
 // A utility function to get maximum of two integers
     int max(int a, int b)
@@ -22,7 +29,7 @@ long long int M = 0;
     }
 
 // The preprocessing function for Boyer Moore's bad character heuristic
-    void badCharHeuristic(char *str, int size, int badchar[NO_OF_CHARS])
+    void badCharHeuristic(string str, int size, int badchar[NO_OF_CHARS])
     {
         int i;
 
@@ -35,10 +42,13 @@ long long int M = 0;
             badchar[(int) str[i]] = i;
     }
 
-    void search(char *txt, char *pat)
+    void search(string txt, string pat)
     {
-        int m = strlen(pat);
-        int n = strlen(txt);
+        C=0;
+        M=0;
+        int m = pat.length();
+        int n = txt.length();
+        found = false;
 
         int badchar[NO_OF_CHARS];
 
@@ -53,12 +63,10 @@ long long int M = 0;
                 j--;
                 C++;
             }
-            if (j < 0)
+            if (j <= 0)
             {
-                printf("\n pattern occurs at shift = %d", s);
-                cout << "\n" << M;
-                cout << "\n" << C;
-
+                printf("Искомое слово находится на %d позиции", s);
+                found = true;
                 s += (s + m < n) ? m - badchar[txt[s + m]] : 1;
 
             }
@@ -70,12 +78,83 @@ long long int M = 0;
             }
         }
     }
+void create_file(string name, char *what,long long int n){
+    ofstream file(name);
+    for (auto i = 0; i < n; i += 10){
+        if (i == n / 2)
+        {
+            file << what;
+            continue;
+        }
+        file << "JSDFGHJKLZ";
+    }
+    file.close();
+}
+string create_arr(string name){
+    ifstream file(name);
+    string mas;
+    getline(file, mas);
+    file.close();
+    return mas;
+}
 
-/* Driver program to test above funtion */
+string test_arr(){
+        string test = "asdfghjklo";
+        cout << "Введите тестовый массив для поиска строки " << par << endl;
+        for(int i = 0; i < 10; i++){
+            cin >> test[i];
+        }
+        return test;
+    }
+/* Driver program to test above function */
     int main()
     {
-        char txt[] = "ABAAABCD";
-        char pat[] = "ABC";
-        search(txt, pat);
+        cout << "\nАлгоритм Бойера-Мура-Хорспула\n"
+                "\nТестовый прогон. \n";
+        string path = "d.txt";
+
+        cout << "Средний случай: \n";
+        string test = test_arr();
+        T = clock();
+        search(test, par);
+        T2 = clock();
+        cout << "\nM(э): " << M <<"\t f(э): " << M + C <<  "\nC(э): " << C << "\t T = " << T2 - T;
+        T=0;
+        T2=0;
+
+
+        cout << "\n\nНаихудший случай: \n";
+        string test2 = test_arr();
+        T=clock();
+        search(test2, par);
+        T2=clock();
+        if(!found){
+            cout << "Слово отсутствует в тексте \n" << "M(э): " << M <<"\t f(э): " << M + C <<  "\nC(э): " << C << "\t T = " << T2-T;
+        }
+        T=0;
+        T2=0;
+
+
+        cout << "\n\n=============================================\nКонтрольный прогон программы:";
+
+        cout << "\n\nСредний случай:\n";
+        create_file(path, par, N);
+        T=clock();
+        string txt = create_arr(path);
+        search(txt, par);
+        T2=clock();
+        cout << "\nM(э): " << M <<"\t f(э): " << M + C <<  "\nC(э): " << C << "\t T = " << T2 - T;
+        T=0;
+        T2=0;
+
+         cout << "\n\nНаихудший случай \n";
+        string pat2 = "??J";
+        T=clock();
+        string txt2 = create_arr(path);
+        search(txt2, pat2);
+        T2=clock();
+        if(!found){
+            cout << "Слово отсутствует в тексте \n" << "M(э): " << M <<"\t f(э): " << M + C <<  "\nC(э): " << C << "\t T = " << T2-T;
+        }
         return 0;
     }

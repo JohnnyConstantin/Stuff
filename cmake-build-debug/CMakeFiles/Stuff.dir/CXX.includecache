@@ -9,10 +9,8 @@
 /Applications/GitHub/GitHub/Stuff/main.cpp
 iostream
 -
-cstdlib
--
 vector
 -
-cmath
+fstream
 -
 
