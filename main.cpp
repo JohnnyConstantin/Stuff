@@ -14,13 +14,22 @@ using namespace std;
 * Ошибки возможны при некорректном вводе данных.
 */
 
-struct Node {
-public :
+class Node {
+public:
     string name;
     string firstname;
-    Node *next;
     int num;
+
+    Node * next;
+
+    Node(){};
+
+    Node(string name, string firstname) {
+        this->firstname = firstname;
+        this->name = name;
+    }
 };
+
 
 void add_First(list<Node> a, Node n){
     n.num = 1;
@@ -32,7 +41,6 @@ void add_First(list<Node> a, Node n){
         a.push_front(n);
     } else {
         a.push_front(n);
-        n.next = nullptr;
     }
 }
 
@@ -75,6 +83,7 @@ int  find_First(list<Node> a, Node n){
             return d.num;
         }
     }
+    return 0;
 }
 
 int find_All(list<Node> a, Node n){
@@ -127,6 +136,7 @@ Node get_Num(list<Node> a, int b){
             return d;
         }
     }
+    return Node();
 }
 
 void swap(list<Node> a, int first, int second){
@@ -159,8 +169,12 @@ void swap(list<Node> a, int first, int second){
             d.next = node1.next;
     }
 }
+
 int main() {
     setlocale(LC_ALL, "Ru");
 
     list<Node> a;
+    Node n("Артем", "Горбенко");
+    add_First(a, n);
+    print(a);
 }
