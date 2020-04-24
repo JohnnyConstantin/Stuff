@@ -124,9 +124,9 @@ void create_file(string name, char *what,long long int n){
 
 
         cout << "\n\nНаихудший случай: \n";
-        string test2 = test_arr();
+        test = test_arr();
         T=clock();
-        search(test2, par);
+        search(test, par);
         T2=clock();
         if(!found){
             cout << "Слово отсутствует в тексте \n" << "M(э): " << M <<"\t f(э): " << M + C <<  "\nC(э): " << C << "\t T = " << T2-T;
