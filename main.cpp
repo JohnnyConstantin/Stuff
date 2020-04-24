@@ -69,10 +69,10 @@ void del_Last(list<Node> a){
     }
 }
 
-Node find_First(list<Node> a, Node n){
+int  find_First(list<Node> a, Node n){
     for(Node d : a) {
         if (d.firstname == n.firstname && d.name == n.name) {
-            return d;
+            return d.num;
         }
     }
 }
@@ -130,13 +130,33 @@ Node get_Num(list<Node> a, int b){
 }
 
 void swap(list<Node> a, int first, int second){
+
     Node node1 = get_Num(a, first);
     Node node2 = get_Num(a, second);
+
+    if(first == 0){
+        del_First(a);
+        del_Last(a);
+        add_First(a, node2);
+        add_Last(a, node1);
+        return;
+    } else if(second == 0){
+        del_First(a);
+        del_Last(a);
+        add_First(a, node1);
+        add_Last(a, node2);
+        return;
+    }
+
     for(Node d : a){
         if(d.num == node1.num - 1)
-            get_Num(a, )
-        if()
-
+            d.next = get_Num(a, second - 1).next;
+        if(d.num == node2.num - 1)
+            d.next = get_Num(a, first - 1).next;
+        if(d.num == node1.num)
+            d.next = node2.next;
+        if(d.num == node2.num)
+            d.next = node1.next;
     }
 }
 int main() {
