@@ -29,11 +29,12 @@ public:
     Node(string name, string firstname) {
         this->firstname = firstname;
         this->name = name;
+        this->next = nullptr;
     }
 };
 
 
-void add_First(list<Node> a, Node n){
+void add_First(list<Node> &a, Node n){
     n.num = 1;
     if(!a.empty()) {
         for (Node node : a) {
@@ -46,17 +47,17 @@ void add_First(list<Node> a, Node n){
     }
 }
 
-int getSize(list<Node> a){
+int getSize(list<Node> &a){
     return a.back().num;
 }
 
-void add_Last(list<Node> a, Node n){
+void add_Last(list<Node> &a, Node n){
     n.num = getSize(a) + 1;
     a.push_back(n);
     a.back().next = nullptr;
 }
 
-void del_First(list<Node> a){
+void del_First(list<Node> &a){
     if(getSize(a) == 0)
         cout << "Нечего удалять";
     else {
@@ -70,7 +71,7 @@ void del_First(list<Node> a){
     }
 }
 
-void del_Last(list<Node> a){
+void del_Last(list<Node> &a){
     if(getSize(a) == 0)
         cout << "Нечего удалять";
     else{
@@ -79,7 +80,7 @@ void del_Last(list<Node> a){
     }
 }
 
-int  find_First(list<Node> a, Node n){
+int  find_First(list<Node> &a, Node n){
     for(Node d : a) {
         if (d.firstname == n.firstname && d.name == n.name) {
             return d.num;
@@ -88,7 +89,7 @@ int  find_First(list<Node> a, Node n){
     return 0;
 }
 
-int find_All(list<Node> a, Node n){
+int find_All(list<Node> &a, Node n){
     int count = 0;
     for(Node d : a){
         if(d.firstname == n.firstname && d.name == n.name){
@@ -98,7 +99,7 @@ int find_All(list<Node> a, Node n){
     return count;
 }
 
-void change_First(list<Node> a, Node n, string name, string firstname){
+void change_First(list<Node> &a, Node n, string name, string firstname){
     for(Node d : a){
         if(d.firstname == n.firstname && d.name == n.name){
             d.name = name;
@@ -108,7 +109,7 @@ void change_First(list<Node> a, Node n, string name, string firstname){
     }
 }
 
-void change_All(list<Node> a, Node n, string name, string firstname){
+void change_All(list<Node> &a, Node n, string name, string firstname){
     for(Node d : a){
         if(d.firstname == n.firstname && d.name == n.name){
             d.name = name;
@@ -117,7 +118,7 @@ void change_All(list<Node> a, Node n, string name, string firstname){
     }
 }
 
-void change_Number(list<Node> a, string name, string firstname, int b){
+void change_Number(list<Node> &a, string name, string firstname, int b){
     for(Node d : a){
         if(b == d.num){
             d.name = name;
@@ -126,13 +127,13 @@ void change_Number(list<Node> a, string name, string firstname, int b){
     }
 }
 
-void print(list<Node> a){
+void print(list<Node> &a){
     for(Node d : a){
-        cout << d.firstname << " " << d.name << endl;
+        cout << d.name << " " << d.firstname << endl;
     }
 }
 
-Node get_Num(list<Node> a, int b){
+Node get_Num(list<Node> &a, int b){
     for(Node d : a){
         if(b == d.num){
             return d;
@@ -141,7 +142,7 @@ Node get_Num(list<Node> a, int b){
     return Node();
 }
 
-void swap(list<Node> a, int first, int second){
+void swap(list<Node> &a, int first, int second){
 
     Node node1 = get_Num(a, first);
     Node node2 = get_Num(a, second);
@@ -160,7 +161,7 @@ void swap(list<Node> a, int first, int second){
         return;
     }
 
-    for(Node d : a){
+    for(Node d : *&a){
         if(d.num == node1.num - 1)
             d.next = get_Num(a, second - 1).next;
         if(d.num == node2.num - 1)
@@ -172,12 +173,38 @@ void swap(list<Node> a, int first, int second){
     }
 }
 
+
+
+void testing(list<Node> &a){
+    string name, firstname;
+
+    for (int i = 0; i < 10; ++i) {
+        cout << "Введите имя и фамилию человека \n";
+        string tempname = "name" + to_string(i);
+        string tempsur = "firstname" + to_string(i);
+        cin >> tempname >> tempsur;
+        Node n(tempname, tempsur);
+        cout <<
+             "Добавляем его в список на 1 позицию...\n";
+        add_First(a, n);
+    }
+
+    cout << "Выводим список для проверки..." << endl;
+    print(a);
+
+    cout << "Меняем местами второй и предпоследний элемент..." << endl;
+    swap(a, 4, 6);
+
+    cout << "Выводим список для проверки..." << endl;
+    print(a);
+
+}
+
 int main() {
     setlocale(LC_ALL, "Ru");
 
     list<Node> a;
-    Node n("Артем", "Горбенко");//Объект создается нормально
-    add_First(a, n);//Сюда засовывается без проблем, на выходе все изменения тоже присутствуют(если верить дебагеру)
-                    //size(а) становится равен 1
-    print(a);//Сюда список входит уже без объекта, т.е size(a) равен 0
+
+    testing(a);
+
 }
