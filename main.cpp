@@ -10,10 +10,6 @@ using namespace std;
 * Professor: Syromyatnikov Vladislav Petrovich
 *
 *
-* Падает в main() на функции add_First(); В самой функции объект записывается в связный список, но после выхода
-* из функции связный список очищается и все изменения пропадают. Предположительно проблема в памяти/указателях
-* либо в конструкторе
-*
 */
 
 class Node {
@@ -35,7 +31,7 @@ public:
 
 
 void add_First(list<Node> &a, Node n){
-    n.num = 1;
+    n.num = a.size() + 1;
     if(!a.empty()) {
         for (Node node : a) {
             node.num++;
@@ -63,7 +59,7 @@ void del_First(list<Node> &a){
     else {
         if (getSize(a) > 1) {
             a.pop_front();
-            for (Node node : a)
+            for (Node &node : a)
                 node.num--;
         } else {
             a.pop_front();
@@ -83,7 +79,7 @@ void del_Last(list<Node> &a){
 int find_First(list<Node> &a, Node n){
     for(Node d : a) {
         if (d.firstname == n.firstname && d.name == n.name) {
-            return d.num+1;
+            return d.num;
         }
     }
     return 0;
@@ -99,18 +95,18 @@ int find_All(list<Node> &a, Node n){
     return count;
 }
 
-void change_First(list<Node> &a, Node n, string name, string firstname){
-    for(Node d : a){
+void change_First(list<Node> &a, Node &n, string name, string firstname){
+    for(Node &d : a){
         if(d.firstname == n.firstname && d.name == n.name){
             d.name = name;
             d.firstname = firstname;
-            break;
+
         }
     }
 }
 
 void change_All(list<Node> &a, Node n, string name, string firstname){
-    for(Node d : a){
+    for(Node &d : a){
         if(d.firstname == n.firstname && d.name == n.name){
             d.name = name;
             d.firstname = firstname;
@@ -119,7 +115,7 @@ void change_All(list<Node> &a, Node n, string name, string firstname){
 }
 
 void change_Number(list<Node> &a, string name, string firstname, int b){
-    for(Node d : a){
+    for(Node &d : a){
         if(b == d.num){
             d.name = name;
             d.firstname = firstname;
@@ -128,13 +124,13 @@ void change_Number(list<Node> &a, string name, string firstname, int b){
 }
 
 void print(list<Node> &a){
-    for(Node d : a){
+    for(Node &d : a){
         cout << d.name << " " << d.firstname << endl;
     }
 }
 
 Node get_Num(list<Node> &a, int b){
-    for(Node d : a){
+    for(Node &d : a){
         if(b == d.num){
             return d;
         }
@@ -161,7 +157,7 @@ void swap(list<Node> &a, int first, int second){
         return;
     }
 
-    for(Node d : *&a){
+    for(Node &d : a){
         if(d.num == node1.num - 1)
             d.next = get_Num(a, second - 1).next;
         if(d.num == node2.num - 1)
@@ -186,19 +182,20 @@ void testing(list<Node> &a){
         Node n(tempname, tempsur);
         cout <<
              "Добавляем его в список на 1 позицию...\n";
-        add_First(a, n);
+        add_Last(a, n);
     }
 
     cout << "Выводим список для проверки..." << endl;
     print(a);
 
 
-    /*///////////////////////////////////////////////////////////////////////*/
-    //              Эта херня не работает, возможно из-за указателей
-    //                          пока не разобрался
+
+    /*//////////////////////////////////////////////////////////////*/
+    //                  Эта херня не работает, хз почему
+    //                        возможно указатели
     //
-    //          cout << "Меняем местами второй и предпоследний элемент..." << endl;
-    //          swap(a, 4, 6);
+    //  cout << "Меняем местами второй и предпоследний элемент..." << endl;
+    // swap(a, 4, 6);
 
 
 
@@ -217,15 +214,22 @@ void testing(list<Node> &a){
         cout << "Запрашиваемый элемент находится на позиции " << find_First(a, test) << endl;
     }
 
+        cout << endl << endl;
+
     Node test2("Константин", "Зубченко");
     cout << "Найдем элемент " << test2.name << " " <<  test2.firstname << endl;
     if(find_First(a, test2) == 0){cout << "Такого элемента не существует";}else{
         cout << "Запрашиваемый элемент встречается " << find_All(a, test2) << " раз" << endl;
     }
 
+    Node test3("Константин", "Зубченко");
+    cout << "Найдем элемент " << test3.name << " " <<  test3.firstname << " и изменим его на Мамин Умничка" << endl;
+    change_First(a, test3 ,"Мамин", "Умничка");
 
+    cout << "Выводим список для проверки..." << endl;
+    print(a);
 
-
+    cout << endl << endl;
 
 }
 
