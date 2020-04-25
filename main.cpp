@@ -80,10 +80,10 @@ void del_Last(list<Node> &a){
     }
 }
 
-int  find_First(list<Node> &a, Node n){
+int find_First(list<Node> &a, Node n){
     for(Node d : a) {
         if (d.firstname == n.firstname && d.name == n.name) {
-            return d.num;
+            return d.num+1;
         }
     }
     return 0;
@@ -192,11 +192,40 @@ void testing(list<Node> &a){
     cout << "Выводим список для проверки..." << endl;
     print(a);
 
-    cout << "Меняем местами второй и предпоследний элемент..." << endl;
-    swap(a, 4, 6);
+
+    /*///////////////////////////////////////////////////////////////////////*/
+    //              Эта херня не работает, возможно из-за указателей
+    //                          пока не разобрался
+    //
+    //          cout << "Меняем местами второй и предпоследний элемент..." << endl;
+    //          swap(a, 4, 6);
+
+
+
+    cout << "Удаляем первый элемент списка..." << endl;
+    del_First(a);
+
+    cout << "Удаляем последний элемент списка..." << endl;
+    del_Last(a);
 
     cout << "Выводим список для проверки..." << endl;
     print(a);
+
+    Node test("Константин", "Зубченко");
+    cout << "Найдем элемент " << test.name << " " << test.firstname << endl;
+    if(find_First(a, test) == 0){cout << "Такого элемента не существует";}else{
+        cout << "Запрашиваемый элемент находится на позиции " << find_First(a, test) << endl;
+    }
+
+    Node test2("Константин", "Зубченко");
+    cout << "Найдем элемент " << test2.name << " " <<  test2.firstname << endl;
+    if(find_First(a, test2) == 0){cout << "Такого элемента не существует";}else{
+        cout << "Запрашиваемый элемент встречается " << find_All(a, test2) << " раз" << endl;
+    }
+
+
+
+
 
 }
 
