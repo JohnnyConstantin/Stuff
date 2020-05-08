@@ -4,25 +4,54 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
     public class Post {
-        @SerializedName("userId")
-        @Expose
-        private int userId;
+        @SerializedName("mail")
+        private String mail;
+        @SerializedName("pass")
+        private String pass;
+        @SerializedName("phone")
+        private String phone;
+        @SerializedName("name")
+        private String name;
         @SerializedName("id")
-        @Expose
         private int id;
-        @SerializedName("title")
-        @Expose
-        private String title;
-        @SerializedName("body")
-        @Expose
-        private String body;
 
-        public int getUserId() {
-            return userId;
+        public Post(String mail, String pass, String phone, String name) {
+            this.mail = mail;
+            this.pass = pass;
+            this.phone = phone;
+            this.name = name;
         }
 
-        public void setUserId(int userId) {
-            this.userId = userId;
+        public String getMail() {
+            return mail;
+        }
+
+        public void setMail(String mail) {
+            this.mail = mail;
+        }
+
+        public String getPass() {
+            return pass;
+        }
+
+        public void setPass(String pass) {
+            this.pass = pass;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
         }
 
         public int getId() {
@@ -31,21 +60,5 @@ import com.google.gson.annotations.SerializedName;
 
         public void setId(int id) {
             this.id = id;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public String getBody() {
-            return body;
-        }
-
-        public void setBody(String body) {
-            this.body = body;
         }
     }
