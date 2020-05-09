@@ -100,7 +100,7 @@ void change_First(list<Node> &a, Node &n, string name, string firstname){
         if(d.firstname == n.firstname && d.name == n.name){
             d.name = name;
             d.firstname = firstname;
-
+            return;
         }
     }
 }
@@ -114,13 +114,15 @@ void change_All(list<Node> &a, Node n, string name, string firstname){
     }
 }
 
-void change_Number(list<Node> &a, string name, string firstname, int b){
+int change_Number(list<Node> &a, string name, string firstname, int b){
     for(Node &d : a){
         if(b == d.num){
             d.name = name;
             d.firstname = firstname;
+            return 1;
         }
     }
+    return 0;
 }
 
 void print(list<Node> &a){
@@ -143,29 +145,15 @@ void swap(list<Node> &a, int first, int second){
     Node node1 = get_Num(a, first);
     Node node2 = get_Num(a, second);
 
-    if(first == 0){
-        del_First(a);
-        del_Last(a);
-        add_First(a, node2);
-        add_Last(a, node1);
-        return;
-    } else if(second == 0){
-        del_First(a);
-        del_Last(a);
-        add_First(a, node1);
-        add_Last(a, node2);
-        return;
-    }
-
     for(Node &d : a){
-        if(d.num == node1.num - 1)
-            d.next = get_Num(a, second - 1).next;
-        if(d.num == node2.num - 1)
-            d.next = get_Num(a, first - 1).next;
-        if(d.num == node1.num)
-            d.next = node2.next;
-        if(d.num == node2.num)
-            d.next = node1.next;
+        if(d.num == first) {
+            d.firstname = node2.firstname;
+            d.name = node2.name;
+        }
+        if (d.num == second){
+            d.firstname = node1.firstname;
+            d.name = node1.name;
+        }
     }
 }
 
@@ -193,9 +181,9 @@ void testing(list<Node> &a){
     /*//////////////////////////////////////////////////////////////*/
     //                  Эта херня не работает, хз почему
     //                        возможно указатели
-    //
-    //  cout << "Меняем местами второй и предпоследний элемент..." << endl;
-    // swap(a, 4, 6);
+
+    cout << "Меняем местами второй и предпоследний элемент..." << endl;
+    swap(a, 4, 6);
 
 
 
@@ -210,7 +198,7 @@ void testing(list<Node> &a){
 
     Node test("Константин", "Зубченко");
     cout << "Найдем элемент " << test.name << " " << test.firstname << endl;
-    if(find_First(a, test) == 0){cout << "Такого элемента не существует";}else{
+    if(find_First(a, test) == 0){cout << "Такого элемента не существует\n";}else{
         cout << "Запрашиваемый элемент находится на позиции " << find_First(a, test) << endl;
     }
 
@@ -218,18 +206,41 @@ void testing(list<Node> &a){
 
     Node test2("Константин", "Зубченко");
     cout << "Найдем элемент " << test2.name << " " <<  test2.firstname << endl;
-    if(find_First(a, test2) == 0){cout << "Такого элемента не существует";}else{
+    if(find_First(a, test2) == 0){cout << "Такого элемента не существует\n";}else{
         cout << "Запрашиваемый элемент встречается " << find_All(a, test2) << " раз" << endl;
     }
 
     Node test3("Константин", "Зубченко");
-    cout << "Найдем элемент " << test3.name << " " <<  test3.firstname << " и изменим его на Мамин Умничка" << endl;
+    cout << "Найдем элемент " << test3.name << " " <<  test3.firstname << " и изменим его первое вхождение на Мамин Умничка" << endl;
     change_First(a, test3 ,"Мамин", "Умничка");
 
     cout << "Выводим список для проверки..." << endl;
     print(a);
 
-    cout << endl << endl;
+    cout << endl;
+
+
+    cout << "Введите номер элемента, который нужно изменить: \n";
+    int num = 0;
+    cin >> num;
+    cout << "Найдем элемент под номером " << num << " и изменим вхождение по заданному номеру на Мамин Умничка" << endl;
+
+    change_Number(a, "Мамин", "Умничка", num);
+
+    cout << "Выводим список для проверки...\n" << endl;
+    print(a);
+
+    cout << endl;
+
+    Node test4("Константин", "Зубченко");
+    cout << "Найдем все элементы " << test4.name << " " << test4.firstname << "и изменим все вхождения этого элемента на Мамин "
+                                                                       "Умничка" << endl;
+    change_All(a, test4, "Мамин", "Умничка");
+    cout << "Выводим список для проверки...\n" << endl;
+    print(a);
+
+    cout << endl;
+
 
 }
 
