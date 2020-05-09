@@ -29,7 +29,7 @@ public:
     }
 };
 
-
+//Добавить в начало
 void add_First(list<Node> &a, Node n){
     n.num = a.size() + 1;
     if(!a.empty()) {
@@ -43,16 +43,19 @@ void add_First(list<Node> &a, Node n){
     }
 }
 
+//Вычислить длину списка
 int getSize(list<Node> &a){
     return a.back().num;
 }
 
+//Добавить в конец
 void add_Last(list<Node> &a, Node n){
     n.num = getSize(a) + 1;
     a.push_back(n);
     a.back().next = nullptr;
 }
 
+//Удалить первый элемент
 void del_First(list<Node> &a){
     if(getSize(a) == 0)
         cout << "Нечего удалять";
@@ -67,6 +70,7 @@ void del_First(list<Node> &a){
     }
 }
 
+//Удалить последний элемент
 void del_Last(list<Node> &a){
     if(getSize(a) == 0)
         cout << "Нечего удалять";
@@ -76,6 +80,7 @@ void del_Last(list<Node> &a){
     }
 }
 
+//Найти первое вхождение
 int find_First(list<Node> &a, Node n){
     for(Node d : a) {
         if (d.firstname == n.firstname && d.name == n.name) {
@@ -85,6 +90,7 @@ int find_First(list<Node> &a, Node n){
     return 0;
 }
 
+//Найти все вхождения
 int find_All(list<Node> &a, Node n){
     int count = 0;
     for(Node d : a){
@@ -95,6 +101,7 @@ int find_All(list<Node> &a, Node n){
     return count;
 }
 
+//Изменить первое вхождение
 void change_First(list<Node> &a, Node &n, string name, string firstname){
     for(Node &d : a){
         if(d.firstname == n.firstname && d.name == n.name){
@@ -105,6 +112,7 @@ void change_First(list<Node> &a, Node &n, string name, string firstname){
     }
 }
 
+//Изменить все вхождения
 void change_All(list<Node> &a, Node n, string name, string firstname){
     for(Node &d : a){
         if(d.firstname == n.firstname && d.name == n.name){
@@ -114,6 +122,7 @@ void change_All(list<Node> &a, Node n, string name, string firstname){
     }
 }
 
+//Изменить по порядковому номеру
 int change_Number(list<Node> &a, string name, string firstname, int b){
     for(Node &d : a){
         if(b == d.num){
@@ -125,12 +134,14 @@ int change_Number(list<Node> &a, string name, string firstname, int b){
     return 0;
 }
 
+//Вывести список
 void print(list<Node> &a){
     for(Node &d : a){
         cout << d.name << " " << d.firstname << endl;
     }
 }
 
+//Получить элемент по порядковому номеру
 Node get_Num(list<Node> &a, int b){
     for(Node &d : a){
         if(b == d.num){
@@ -140,6 +151,8 @@ Node get_Num(list<Node> &a, int b){
     return Node();
 }
 
+
+//Поменять два элемента местами
 void swap(list<Node> &a, int first, int second){
 
     Node node1 = get_Num(a, first);
@@ -156,33 +169,42 @@ void swap(list<Node> &a, int first, int second){
         }
     }
 }
+//Добавить в середину после
+void addPrev(){}
 
+//Добавить в середину перед
+void addForw(){}
 
 
 void testing(list<Node> &a){
     string name, firstname;
 
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i < 9; ++i) {
         cout << "Введите имя и фамилию человека \n";
         string tempname = "name" + to_string(i);
         string tempsur = "firstname" + to_string(i);
         cin >> tempname >> tempsur;
         Node n(tempname, tempsur);
         cout <<
-             "Добавляем его в список на 1 позицию...\n";
+             "Добавляем его в список на последнюю позицию...\n";
         add_Last(a, n);
     }
+
+    cout << "Введите имя и фамилию человека \n";
+    string tempname, tempsur;
+    cin >> tempname >> tempsur;
+    Node n(tempname, tempsur);
+    cout <<
+         "Добавляем его в список на первую позицию...\n";
+    add_First(a, n);
 
     cout << "Выводим список для проверки..." << endl;
     print(a);
 
 
-
-    /*//////////////////////////////////////////////////////////////*/
-    //                  Эта херня не работает, хз почему
-    //                        возможно указатели
-
-    cout << "Меняем местами второй и предпоследний элемент..." << endl;
+    int first = 4;
+    int second = 6;
+    cout << "Меняем местами " << first <<  "и " << second << " элемент..." << endl;
     swap(a, 4, 6);
 
 
@@ -240,6 +262,8 @@ void testing(list<Node> &a){
     print(a);
 
     cout << endl;
+
+
 
 
 }
