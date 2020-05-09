@@ -5,14 +5,19 @@ import com.google.gson.annotations.SerializedName;
 
     public class Post {
         @SerializedName("mail")
+        @Expose
         private String mail;
         @SerializedName("pass")
+        @Expose
         private String pass;
         @SerializedName("phone")
+        @Expose
         private String phone;
         @SerializedName("name")
+        @Expose
         private String name;
         @SerializedName("id")
+        @Expose
         private int id;
 
         public Post(String mail, String pass, String phone, String name) {

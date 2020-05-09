@@ -9,7 +9,7 @@ import retrofit2.http.Path;
 
 public interface JSONPlaceHolderApi {
     @GET("/posts/{id}")
-    public Call<Post> getPostWithID(@Path("id") int id);
+    Call<Post> getPostWithID(@Path("id") int id);
     @POST("/addUser")
-    public Call<Post> postData(@Body Post data);
+    Call<Post> postData(@Body Post data);
 }
