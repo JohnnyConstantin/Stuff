@@ -170,26 +170,36 @@ void swap(list<Node> &a, int first, int second){
 //Добавить в середину после
 void addPrev(list<Node> &a, int b, Node n){
     list<Node> g;
-    int p = 0;
     for(int i = a.size(); i > b; --i){
         add_Last(g, get_Num(a, i));
         del_Last(a);
-        p++;
     }
 
     add_Last(a, n);
-    for(int i = p; i > 0; i--){
-        add_Last(a, get_Num(g,i));
+    for(int h = g.size(); h > 0; h--){
+        add_Last(a, get_Num(g,h));
     }
 
 }
 
 //Добавить в середину перед
-void addForw(){}
+void addForw(list<Node> &a, int j, Node n){
+    list<Node> y;
+    int m = 0;
+    for(int i = a.size(); i > j; --i){
+        add_Last(y, get_Num(a, i));
+        del_Last(a);
+        m++;
+    }
+
+    add_Last(a, n);
+    for(int t = m; t > 0; t--){
+        add_Last(a, get_Num(y,t));
+    }
+}
 
 
 void testing(list<Node> &a){
-    string name, firstname;
 
     for (int i = 0; i < 10; ++i) {
         cout << "Введите имя и фамилию человека \n";
@@ -214,6 +224,15 @@ void testing(list<Node> &a){
 
     cout << endl;
 
+
+    Node test7("Артемис", "Артемкис");
+    int k1 = 8;
+    cout << "Добавим Артем Артемко в середину списка " << "после " << k1 << " позиции" << endl;
+    addForw(a, k1, test7);
+    cout << "Выводим список для проверки..." << endl;
+    print(a);
+
+    cout << endl;
 
 
     int first = 4;
