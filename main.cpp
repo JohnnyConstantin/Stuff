@@ -1,6 +1,4 @@
 #include <iostream>
-#include <vector>
-#include <fstream>
 #include <list>
 
 using namespace std;
@@ -9,7 +7,7 @@ using namespace std;
 * As homework for "Algorithmes and data structures" lab №7
 * Professor: Syromyatnikov Vladislav Petrovich
 *
-*
+*           й ц ц у у к к е Константин Зубченко Константин Зубченко н г Константин Зубченко г ш о л
 */
 
 class Node {
@@ -170,7 +168,21 @@ void swap(list<Node> &a, int first, int second){
     }
 }
 //Добавить в середину после
-void addPrev(){}
+void addPrev(list<Node> &a, int b, Node n){
+    list<Node> g;
+    int p = 0;
+    for(int i = a.size(); i > b; --i){
+        add_Last(g, get_Num(a, i));
+        del_Last(a);
+        p++;
+    }
+
+    add_Last(a, n);
+    for(int i = p; i > 0; i--){
+        add_Last(a, get_Num(g,i));
+    }
+
+}
 
 //Добавить в середину перед
 void addForw(){}
@@ -179,7 +191,7 @@ void addForw(){}
 void testing(list<Node> &a){
     string name, firstname;
 
-    for (int i = 0; i < 9; ++i) {
+    for (int i = 0; i < 10; ++i) {
         cout << "Введите имя и фамилию человека \n";
         string tempname = "name" + to_string(i);
         string tempsur = "firstname" + to_string(i);
@@ -190,21 +202,23 @@ void testing(list<Node> &a){
         add_Last(a, n);
     }
 
-    cout << "Введите имя и фамилию человека \n";
-    string tempname, tempsur;
-    cin >> tempname >> tempsur;
-    Node n(tempname, tempsur);
-    cout <<
-         "Добавляем его в список на первую позицию...\n";
-    add_First(a, n);
-
     cout << "Выводим список для проверки..." << endl;
     print(a);
+
+    Node test5("Артем", "Артемко");
+    int k = 5;
+    cout << "Добавим Артем Артемко в середину списка " << "после " << k << " позиции" << endl;
+    addPrev(a, k, test5);
+    cout << "Выводим список для проверки..." << endl;
+    print(a);
+
+    cout << endl;
+
 
 
     int first = 4;
     int second = 6;
-    cout << "Меняем местами " << first <<  "и " << second << " элемент..." << endl;
+    cout << "Меняем местами " << first <<  " и " << second << " элемент..." << endl;
     swap(a, 4, 6);
 
 
