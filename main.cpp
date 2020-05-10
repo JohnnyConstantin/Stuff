@@ -172,10 +172,11 @@ void addPrev(list<Node> &a, int b, Node n){
     list<Node> g;
     for(int i = a.size(); i > b; --i){
         add_Last(g, get_Num(a, i));
+
         del_Last(a);
     }
 
-    add_Last(a, n);
+    add_Last(a, std::move(n));
     for(int h = g.size(); h > 0; h--){
         add_Last(a, get_Num(g,h));
     }
@@ -186,13 +187,13 @@ void addPrev(list<Node> &a, int b, Node n){
 void addForw(list<Node> &a, int j, Node n){
     list<Node> y;
     int m = 0;
-    for(int i = a.size(); i > j; --i){
+    for(int i = a.size(); i >= j; --i){
         add_Last(y, get_Num(a, i));
         del_Last(a);
         m++;
     }
 
-    add_Last(a, n);
+    add_Last(a, std::move(n));
     for(int t = m; t > 0; t--){
         add_Last(a, get_Num(y,t));
     }
@@ -215,19 +216,10 @@ void testing(list<Node> &a){
     cout << "Выводим список для проверки..." << endl;
     print(a);
 
-    Node test5("Артем", "Артемко");
-    int k = 5;
-    cout << "Добавим Артем Артемко в середину списка " << "после " << k << " позиции" << endl;
-    addPrev(a, k, test5);
-    cout << "Выводим список для проверки..." << endl;
-    print(a);
-
-    cout << endl;
-
 
     Node test7("Артемис", "Артемкис");
-    int k1 = 8;
-    cout << "Добавим Артем Артемко в середину списка " << "после " << k1 << " позиции" << endl;
+    int k1 = 3;
+    cout << "Добавим Артем Артемко в середину списка " << "перед " << k1 << " позицией " << endl;
     addForw(a, k1, test7);
     cout << "Выводим список для проверки..." << endl;
     print(a);
@@ -296,7 +288,14 @@ void testing(list<Node> &a){
 
     cout << endl;
 
-
+//    Node test5("Артем", "Артемко");
+//    int k = 5;
+//    cout << "Добавим Артем Артемко в середину списка " << "после " << k << " позиции" << endl;
+//    addPrev(a, k, test5);
+//    cout << "Выводим список для проверки..." << endl;
+//    print(a);
+//
+//    cout << endl;
 
 
 }
