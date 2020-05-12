@@ -199,8 +199,10 @@ void addForw(list<Node> &a, int j, Node n){
             b.num = a.size() + g + 1;
             g++;
         }
+
     add_Last(a, n);
-    for(int t = m+3; t > 0; t--){
+    int ost = a.size();
+    for(int t = m+ost; t > ost; t--){
         add_Last(a, get_Num(y,t));
     }
 }
