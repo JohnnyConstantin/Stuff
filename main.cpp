@@ -169,17 +169,25 @@ void swap(list<Node> &a, int first, int second){
     }
 }
 //Добавить в середину после
-void addPrev(list<Node> &a, int b, Node n){
-    list<Node> g;
-    for(int i = a.size(); i > b; --i){
-        add_Last(g, get_Num(a, i));
-
+void addPrev(list<Node> &a, int q, Node n){
+    list<Node> y;
+    int m = 0;
+    for(int i = a.size(); i > q; --i){
+        add_Last(y, get_Num(a, i));
         del_Last(a);
+        m++;
+    }
+
+    int g = 1;
+    for(Node &b : y) {
+        b.num = a.size() + g +1;
+        g++;
     }
 
     add_Last(a, n);
-    for(int h = g.size(); h > 0; h--){
-        add_Last(a, get_Num(g,h));
+    int ost = a.size();
+    for(int t = m+ost; t > ost; t--){
+        add_Last(a, get_Num(y,t));
     }
 
 }
@@ -305,14 +313,14 @@ void testing(list<Node> &a){
 
     cout << endl;
 
-//    Node test5("Артем", "Артемко");
-//    int k = 5;
-//    cout << "Добавим Артем Артемко в середину списка " << "после " << k << " позиции" << endl;
-//    addPrev(a, k, test5);
-//    cout << "Выводим список для проверки..." << endl;
-//    print(a);
-//
-//    cout << endl;
+    Node test5("Артем", "Артемко");
+    int k = 5;
+    cout << "Добавим Артем Артемко в середину списка " << "после " << k << " позиции" << endl;
+    addPrev(a, k, test5);
+    cout << "Выводим список для проверки..." << endl;
+    print(a);
+
+    cout << endl;
 
 
 }
