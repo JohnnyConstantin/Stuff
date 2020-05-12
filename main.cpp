@@ -29,9 +29,9 @@ public:
 
 //Добавить в начало
 void add_First(list<Node> &a, Node n){
-    n.num = a.size() + 1;
+    n.num = 1;
     if(!a.empty()) {
-        for (Node node : a) {
+        for (Node &node : a) {
             node.num++;
         }
         n.next = &a.front();
@@ -49,6 +49,7 @@ int getSize(list<Node> &a){
 //Добавить в конец
 void add_Last(list<Node> &a, Node n){
     n.num = getSize(a) + 1;
+    a.back().next = n.next;
     a.push_back(n);
     a.back().next = nullptr;
 }
@@ -135,7 +136,7 @@ int change_Number(list<Node> &a, string name, string firstname, int b){
 //Вывести список
 void print(list<Node> &a){
     for(Node &d : a){
-        cout << d.name << " " << d.firstname << endl;
+        cout << d.num << ". " << d.name << " " << d.firstname << endl;
     }
 }
 
@@ -176,7 +177,7 @@ void addPrev(list<Node> &a, int b, Node n){
         del_Last(a);
     }
 
-    add_Last(a, std::move(n));
+    add_Last(a, n);
     for(int h = g.size(); h > 0; h--){
         add_Last(a, get_Num(g,h));
     }
@@ -193,8 +194,13 @@ void addForw(list<Node> &a, int j, Node n){
         m++;
     }
 
-    add_Last(a, std::move(n));
-    for(int t = m; t > 0; t--){
+    int g = 1;
+        for(Node &b : y) {
+            b.num = a.size() + g + 1;
+            g++;
+        }
+    add_Last(a, n);
+    for(int t = m+3; t > 0; t--){
         add_Last(a, get_Num(y,t));
     }
 }
@@ -202,7 +208,7 @@ void addForw(list<Node> &a, int j, Node n){
 
 void testing(list<Node> &a){
 
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i < 9; ++i) {
         cout << "Введите имя и фамилию человека \n";
         string tempname = "name" + to_string(i);
         string tempsur = "firstname" + to_string(i);
@@ -213,13 +219,22 @@ void testing(list<Node> &a){
         add_Last(a, n);
     }
 
+    cout << "Введите имя и фамилию человека \n";
+    string tempname,tempsur;
+    cin >> tempname >> tempsur;
+    Node n(tempname, tempsur);
+    cout <<
+         "Добавляем его в список на первую позицию...\n";
+    add_First(a, n);
+
+
     cout << "Выводим список для проверки..." << endl;
     print(a);
 
 
     Node test7("Артемис", "Артемкис");
     int k1 = 3;
-    cout << "Добавим Артем Артемко в середину списка " << "перед " << k1 << " позицией " << endl;
+    cout << "Добавим Артемис Артемкис в середину списка " << "перед " << k1 << " позицией " << endl;
     addForw(a, k1, test7);
     cout << "Выводим список для проверки..." << endl;
     print(a);
@@ -243,7 +258,7 @@ void testing(list<Node> &a){
     cout << "Выводим список для проверки..." << endl;
     print(a);
 
-    Node test("Константин", "Зубченко");
+    Node test("Артемис", "Артемкис");
     cout << "Найдем элемент " << test.name << " " << test.firstname << endl;
     if(find_First(a, test) == 0){cout << "Такого элемента не существует\n";}else{
         cout << "Запрашиваемый элемент находится на позиции " << find_First(a, test) << endl;
