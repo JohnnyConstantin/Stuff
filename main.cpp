@@ -194,6 +194,7 @@ void addPrev(list<Node> &a, int q, Node n){
 
 //Добавить в середину перед
 void addForw(list<Node> &a, int j, Node n){
+//
     list<Node> y;
     int m = 0;
     for(int i = a.size(); i >= j; --i){
@@ -201,7 +202,7 @@ void addForw(list<Node> &a, int j, Node n){
         del_Last(a);
         m++;
     }
-
+//Присваиваем клонированному списку номера
     int g = 1;
         for(Node &b : y) {
             b.num = a.size() + g + 1;
