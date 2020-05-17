@@ -58,8 +58,6 @@ public class MainActivity extends AppCompatActivity {
                 createPost();
             }
         });
-
-
     }
 
     public void createPost() {
