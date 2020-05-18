@@ -7,330 +7,540 @@ using namespace std;
 * As homework for "Algorithmes and data structures" lab №7
 * Professor: Syromyatnikov Vladislav Petrovich
 *
-*           й ц ц у у к к е Константин Зубченко Константин Зубченко н г Константин Зубченко г ш о л
+*       Антон 12 Сергей 24 Константин 18 Артем 80 Петр 1 Анна 28 Диана 69 Мария 65 Елена 20 Ангелина 10
 */
 
-class Node {
-public:
+struct Los
+{
     string name;
-    string firstname;
-    int num;
-
-    Node * next;
-
-    Node(){};
-
-    Node(string name, string firstname) {
-        this->firstname = firstname;
-        this->name = name;
-        this->next = nullptr;
-    }
+    int inf;
+    Los* next = NULL;
 };
 
-//Добавить в начало
-void add_First(list<Node> &a, Node n){
-    n.num = 1;
-    if(!a.empty()) {
-        for (Node &node : a) {
-            node.num++;
+struct ActionLos
+{
+    int SizeList;
+    string name;
+    int inf;
+    Los* first = NULL;
+    Los* last = NULL;
+
+    void start()
+    {
+        SizeList = 10;
+        cout << "Введите 10 элементов списка (имя и возраст):" << endl;
+        Los* el = new Los;
+        cin >> el->name;
+        cin >> el->inf;
+        first = el;
+        last = el;
+        for (int i = 0; i < 9; i++)
+        {
+            cin >> name;
+            cin >> inf;
+            last = creat(last, name, inf);
         }
-        n.next = &a.front();
-        a.push_front(n);
-    } else {
-        a.push_front(n);
+        menu();
+        menu1();
     }
-}
 
-//Вычислить длину списка
-int getSize(list<Node> &a){
-    return a.back().num;
-}
+    Los* creat(Los* last, string name, int inf)
+    {
+        Los* el = new Los;
+        el->name = name;
+        el->inf = inf;
+        last->next = el;
+        return el;
+    }
 
-//Добавить в конец
-void add_Last(list<Node> &a, Node n){
-    n.num = getSize(a) + 1;
-    a.back().next = n.next;
-    a.push_back(n);
-    a.back().next = nullptr;
-}
+    void AddToBeginning()
+    {
+        cout << "Введите элемент (имя и число), который нужно добавить в начало списка" << endl;
+        Los* el = new Los;
+        cin >> el->name;
+        cin >> el->inf;
+        el->next = first;
+        first = el;
+        SizeList++;
+        menu1();
+    }
 
-//Удалить первый элемент
-void del_First(list<Node> &a){
-    if(getSize(a) == 0)
-        cout << "Нечего удалять";
-    else {
-        if (getSize(a) > 1) {
-            a.pop_front();
-            for (Node &node : a)
-                node.num--;
-        } else {
-            a.pop_front();
+    void AddToEnd()
+    {
+        cout << "Введите элемент (имя и число), который нужно добавить в конец списка" << endl;
+        Los* el = new Los;
+        cin >> el->name;
+        cin >> el->inf;
+        last->next = el;
+        last = el;
+        SizeList++;
+        menu1();
+    }
+
+    void AddElementAfter()
+    {
+        cout << "Введите элемент, после которого должна произойти вставка (имя и число): " << endl;
+        cin >> name;
+        cin >> inf;
+        cout << "Введите элемент, который необходимо вставить (имя и число): " << endl;
+        Los* who = first;
+        int flag = false;
+        int copy = SizeList;
+        while (copy > 0) {
+            if (who->inf == inf && who->name == name)
+            {
+                flag = true;
+                copy = 0;
+                Los* el = new Los;
+                cin >> name;
+                cin >> inf;
+                el->inf = inf;
+                el->name = name;
+                el->next = who->next;
+                who->next = el;
+                cout << "Элемент успешно добавлен" << endl;
+                SizeList++;
+            }
+            copy--;
+            who = who->next;
+        }
+        if (!flag) { cout << "Элемент найти не удалось." << endl; }
+        menu1();
+    }
+
+    void AddElementBefore()
+    {
+        cout << "Введите элемент, перед которым должна произойти вставка (имя и число): " << endl;
+        cin >> name;
+        cin >> inf;
+        cout << "Введите элемент, который необходимо вставить (имя и число): " << endl;
+        Los* who = first;
+        Los* past = NULL;
+        int flag = false;
+        int copy = SizeList;
+        while (copy > 0) {
+            if (who->inf == inf && who->name == name) {
+                flag = true;
+                copy = 0;
+                Los* el = new Los;
+                cin >> name;
+                cin >> inf;
+                el->inf = inf;
+                el->name = name;
+                el->next = who;
+                if (past != NULL) {
+                    past->next = el;
+                }
+                else { first = el; }
+                cout << "Элемент успешно добавлен" << endl;
+                SizeList++;
+            }
+            copy--;
+            past = who;
+            who = who->next;
+        }
+        if (!flag) { cout << "Элемент найти не удалось." << endl; }
+        menu1();
+    }
+
+    void DeleteFromBeginning()
+    {
+        cout << "Первый элемент удалён" << endl;
+        Los* temporary = first;
+        first = first->next;
+        delete temporary;
+        SizeList--;
+        menu1();
+    }
+
+    void DeleteFromEnd()
+    {
+        cout << "Последний элемент удалён" << endl;
+        int copy = SizeList;
+        Los* who = first;
+        while (copy > 0)
+        {
+            if (who->next == last) {
+                last = who;
+                who = who->next;
+                delete who;
+            }
+            copy--;
+        }
+        SizeList--;
+        menu1();
+    }
+
+    bool DeleteElement1(string name, int inf, int n)
+    {
+        Los* who = first;
+        Los* past = NULL;
+        int copy = SizeList;
+        while (copy > 0)
+        {
+            if (who->inf == inf && who->name == name) {
+                if (past != NULL) {
+                    past->next = who->next;
+                }
+                else { first = who->next; }
+                SizeList--;
+                delete who;
+                if (n == 0)DeleteElement1(name, inf, n);
+                return true;
+            }
+            past = who;
+            who = who->next;
+            copy--;
+        }
+        return false;
+    }
+
+    void DeleteElement(int n)
+    {
+        cout << "Введите элемент, который необходимо удалить:" << endl;
+        cin >> name;
+        cin >> inf;
+        bool flag = DeleteElement1(name, inf, n);
+        if (!flag) {
+            cout << "Искомый элемент не найден" << endl;
+        }    else if (n == 1) cout << "Искомый элемент удалён" << endl;
+        else cout << "Все искомые элементы удалены" << endl;
+        menu1();
+    }
+
+    void FindElement(int n)
+    {
+        cout << "Введите элемент, который необходимо найти:" << endl;
+        cin >> name;
+        cin >> inf;
+        Los* who = first;
+        int pos = 0;
+        int flag = false;
+        int copy = SizeList;
+        while (copy > 0) {
+            pos++;
+            if (who->inf == inf && who->name == name && n == 1) {
+                copy = 0;
+                flag = true;
+                cout << "Позиция данного элемента в ЛОС равна " << pos << endl;
+            }
+            if (who->inf == inf && who->name == name && n == 0) {
+                if (!flag) {
+                    cout << "Данный элемент в ЛОС стоит на позициях: " << endl << pos << endl;
+                }
+                else cout << pos << endl;
+                flag = true;
+            }
+            who = who->next;
+            copy--;
+        }
+        if (!flag) { cout << "Элемента с такими данными в ЛОС не существует" << endl; }
+        menu1();
+    }
+
+    void ChangeElement(int n)
+    {
+        cout << "Введите значение, которое желаете изменить (имя и число)" << endl;
+        cin >> name;
+        cin >> inf;
+        string name1;
+        int inf1;
+        bool flag = false;
+        cout << "Введите значение, на которое желаете изменить (имя и число)" << endl;
+        cin >> name1;
+        cin >> inf1;
+        Los* who = first;
+        int copy = SizeList;
+        while (copy > 0) {
+            if (who->name == name && who->inf == inf) {
+                who->name = name1;
+                who->inf = inf1;
+                if (n == 1) {
+                    copy = 0;
+                }
+                flag = true;
+            }
+            who = who->next;
+            copy--;
+        }
+        if (flag)cout << "Операция прошла успешно" << endl;
+        else cout << "Введённый вами элемент не был найден" << endl;
+        menu1();
+    }
+
+    void ChangePositionedElement()
+    {
+        cout << "Введите номер элемента, значение которого желаете изменить" << endl;
+        int n, i = 1;
+        cin >> n;
+        if (n > SizeList) { cout << "Размер ЛОС меньше указанного вами значения!" << endl; }
+        else {
+            cout << "Введите значение, на которое желаете изменить (имя и число)" << endl;
+            Los* who = first;
+            while (i != n) {
+                who = who->next;
+                i++;
+            }
+            cin >> who->name;
+            cin >> who->inf;
+            cout << "Значение успешно изменено" << endl;
+        }
+        menu1();
+    }
+
+    void SwapElements(int n1, int n2) {
+        bool flag = false;
+        if (n2 - n1 == 1) flag = true;
+        Los *past1 = new Los;
+        Los *past2 = new Los;
+        Los *next1 = new Los;
+        Los *next2 = new Los;
+        Los *el1 = new Los;
+        Los *el2 = new Los;
+        Los *who = first;
+        int copy = SizeList;
+        while (copy > 0) {
+            n1--;
+            n2--;
+            if (n1 == 0) {
+                el1 = who;
+                next1 = who->next;
+            } else if (n1 > 0)past1 = who;
+            if (n2 == 0) {
+                el2 = who;
+                next2 = who->next;
+            } else if (n2 > 0)past2 = who;
+            who = who->next;
+            copy--;
+        }
+        if (el1 == first && el2 == last) {
+            first = el2;
+            last = el1;
+        } else if (el1 == first)first = el2;
+        else if (el2 == last)last = el1;
+        past1->next = el2;
+        el1->next = next2;
+        if (flag)el2->next = el1;
+        else {
+            past2->next = el1;
+            el2->next = next1;
         }
     }
-}
 
-//Удалить последний элемент
-void del_Last(list<Node> &a){
-    if(getSize(a) == 0)
-        cout << "Нечего удалять";
-    else{
-        a.pop_back();
-        a.back().next = nullptr;
-    }
-}
-
-//Найти первое вхождение
-int find_First(list<Node> &a, Node n){
-    for(Node d : a) {
-        if (d.firstname == n.firstname && d.name == n.name) {
-            return d.num;
+    void Replace() {
+        cout << "Введите номера элементов, которые хотите поменять местами" << endl;
+        int n1, n2;
+        cin >> n1;
+        cin >> n2;
+        if (n1 > SizeList || n2 > SizeList) { cout << "Величина ЛОС короче, нежели одно из ваших значений" << endl; }
+        else {
+            if (n1 > n2) {
+                int n = n2;
+                n2 = n1;
+                n1 = n;
+            }
+            SwapElements(n1, n2);
+            cout << "Замена выполнена успешно" << endl;
         }
+        menu1();
     }
+
+    void LosLength() {
+        cout << "Длина ЛОС равна " << SizeList << endl;
+        menu1();
+    }
+
+    void DeleteLos() {
+        while (SizeList > 0) {
+            Los* who = first;
+            first = first->next;
+            delete who;
+            SizeList--;
+        }
+        cout << "Весь ЛОС удалён" << endl;
+        menu1();
+    }
+
+    void OutLos() {
+        setlocale(LC_ALL, "Russian");
+        Los* first = this->first;
+        int copy = SizeList;
+        while (SizeList > 0) {
+            cout << first->name << " " << first->inf << endl;
+            first = first->next;
+            SizeList--;
+        }
+        SizeList = copy;
+        menu1();
+    }
+
+    void menu() {
+        cout << "-------------------------------------------------------------------------------------------------------------------" << endl;
+        cout << "Список команд:" << endl;
+        cout << "[1] - Добавить элемент в список" << endl;
+        cout << "[2] - Удалить элемент из списка" << endl;
+        cout << "[3] - Найти элемент" << endl;
+        cout << "[4] - Изменить элемент" << endl;
+        cout << "[5] - Поменять два элемента местами" << endl;
+        cout << "[6] - Вычислить длину ЛОС" << endl;
+        cout << "[7] - Вывести (распечатать) ЛОС на экран" << endl;
+        cout << "[8] - Удалить ЛОС" << endl;
+        cout << "[0] - Завершение программы" << endl << endl;
+        cout << "-------------------------------------------------------------------------------------------------------------------" << endl;
+        menu1();
+    }
+
+    void menu1() {
+        cout << "Введите команду: ";
+        int choice;
+        cin >> choice;
+        cout
+                << "-------------------------------------------------------------------------------------------------------------------"
+                << endl;
+        switch (choice) {
+            case 1:
+                cout << "[1] - Добавить элемент в начало списка" << endl;
+                cout << "[2] - Добавить элемент в конец списка" << endl;
+                cout << "[3] - Добавить элемент в середину списка" << endl;
+                int choice1;
+                cin >> choice1;
+                cout
+                        << "-------------------------------------------------------------------------------------------------------------------"
+                        << endl;
+                switch (choice1) {
+                    case 1:
+                        AddToBeginning();
+                        break;
+                    case 2:
+                        AddToEnd();
+                        break;
+                    case 3:
+                        cout << "[1] - Добавить элемент в середину списка после заданного элемента" << endl;
+                        cout << "[2] - Добавить элемент в середину списка перед заданным элементом" << endl;
+                        int choice2;
+                        cin >> choice2;
+                        cout
+                                << "-------------------------------------------------------------------------------------------------------------------"
+                                << endl;
+                        switch (choice2) {
+                            case 1:
+                                AddElementAfter();
+                                break;
+                            case 2:
+                                AddElementBefore();
+                                break;
+                        }
+                }
+                break;
+            case 2:
+                cout << "[1] - Удалить первый элемент" << endl;
+                cout << "[2] - Удалить последний элемент" << endl;
+                cout << "[3] - Удалить искомый элемет" << endl;
+                int choice5;
+                cin >> choice5;
+                cout
+                        << "-------------------------------------------------------------------------------------------------------------------"
+                        << endl;
+                switch (choice5) {
+                    case 1:
+                        DeleteFromBeginning();;
+                        break;
+                    case 2:
+                        DeleteFromEnd();
+                        break;
+                    case 3:
+                        cout << "[1] - Удалить искомый элемет (первое вхождение)" << endl;
+                        cout << "[2] - Удалить искомый элемет (все вхождения)" << endl;
+                        int choice1;
+                        cin >> choice1;
+                        cout
+                                << "-------------------------------------------------------------------------------------------------------------------"
+                                << endl;
+                        switch (choice1) {
+                            case 1:
+                                DeleteElement(1);
+                                break;
+                            case 2:
+                                DeleteElement(0);
+                                break;
+                        }
+                }
+                        break;
+                    case 3:
+                        cout << "[1] - Найти элемент (первое вхождение)" << endl;
+                        cout << "[2] - Найти элемент (все вхождения)" << endl;
+                        cout << "Введите команду:";
+                        int choice4;
+                        cin >> choice4;
+                        cout
+                                << "-------------------------------------------------------------------------------------------------------------------"
+                                << endl;
+                        switch (choice4) {
+                            case 1:
+                                FindElement(1);
+                                break;
+                            case 2:
+                                FindElement(0);
+                                break;
+                        }
+                        break;
+                    case 4:
+                        cout << "[1] - Изменить элемент (первое вхождение)" << endl;
+                        cout << "[2] - Изменить элемент (все вхождения)" << endl;
+                        cout << "[3] - Изменить элемент (по порядковому номеру)" << endl;
+                        cout << "Введите команду:";
+                        int choice3;
+                        cin >> choice3;
+                        cout << "-------------------------------------------------------------------------------------------------------------------"
+                                << endl;
+                        switch (choice3) {
+                            case 1:
+                                ChangeElement(1);
+                                break;
+                            case 2:
+                                ChangeElement(0);
+                                break;
+                            case 3:
+                                ChangePositionedElement();
+                                break;
+                        }
+                        break;
+                    case 5:
+                        Replace();
+                        break;
+                    case 6:
+                        LosLength();
+                        break;
+                    case 7:
+                        OutLos();
+                        break;
+                    case 8:
+                        DeleteLos();
+                        break;
+                    case 0:
+                        cout << "Вы уверены, что хотите выйти из программы?"<< endl;
+                        cout << "[1] Да"<<endl;
+                        cout << "[2] Нет"<<endl;
+                        int choice6;
+                        cin >> choice6;
+                cout << "-------------------------------------------------------------------------------------------------------------------"
+                     << endl;
+                switch (choice6) {
+                    case 1:
+                        return;
+                    case 2:
+                        break;
+                    default:
+                        cout << "Несуществующая команда!";
+                        break;
+                }
+            }
+        }
+};
+
+int main()
+{
+    ActionLos* work = new ActionLos;
+    work->start();
     return 0;
-}
-
-//Найти все вхождения
-int find_All(list<Node> &a, Node n){
-    int count = 0;
-    for(Node d : a){
-        if(d.firstname == n.firstname && d.name == n.name){
-            ++count;
-        }
-    }
-    return count;
-}
-
-//Изменить первое вхождение
-void change_First(list<Node> &a, Node &n, string name, string firstname){
-    for(Node &d : a){
-        if(d.firstname == n.firstname && d.name == n.name){
-            d.name = name;
-            d.firstname = firstname;
-            return;
-        }
-    }
-}
-
-//Изменить все вхождения
-void change_All(list<Node> &a, Node n, string name, string firstname){
-    for(Node &d : a){
-        if(d.firstname == n.firstname && d.name == n.name){
-            d.name = name;
-            d.firstname = firstname;
-        }
-    }
-}
-
-//Изменить по порядковому номеру
-int change_Number(list<Node> &a, string name, string firstname, int b){
-    for(Node &d : a){
-        if(b == d.num){
-            d.name = name;
-            d.firstname = firstname;
-            return 1;
-        }
-    }
-    return 0;
-}
-
-//Вывести список
-void print(list<Node> &a){
-    for(Node &d : a){
-        cout << d.num << ". " << d.name << " " << d.firstname << endl;
-    }
-}
-
-//Получить элемент по порядковому номеру
-Node get_Num(list<Node> &a, int b){
-    for(Node &d : a){
-        if(b == d.num){
-            return d;
-        }
-    }
-    return Node();
-}
-
-
-//Поменять два элемента местами
-void swap(list<Node> &a, int first, int second){
-
-    Node node1 = get_Num(a, first);
-    Node node2 = get_Num(a, second);
-
-    for(Node &d : a){
-        if(d.num == first) {
-            d.firstname = node2.firstname;
-            d.name = node2.name;
-        }
-        if (d.num == second){
-            d.firstname = node1.firstname;
-            d.name = node1.name;
-        }
-    }
-}
-//Добавить в середину после
-void addPrev(list<Node> &a, int q, Node n){
-    list<Node> y;
-    int m = 0;
-    for(int i = a.size(); i > q; --i){
-        add_Last(y, get_Num(a, i));
-        del_Last(a);
-        m++;
-    }
-
-    int g = 1;
-    for(Node &b : y) {
-        b.num = a.size() + g +1;
-        g++;
-    }
-
-    add_Last(a, n);
-    int ost = a.size();
-    for(int t = m+ost; t > ost; t--){
-        add_Last(a, get_Num(y,t));
-    }
-
-}
-
-//Добавить в середину перед
-void addForw(list<Node> &a, int j, Node n){
-//
-    list<Node> y;
-    int m = 0;
-    for(int i = a.size(); i >= j; --i){
-        add_Last(y, get_Num(a, i));
-        del_Last(a);
-        m++;
-    }
-//Присваиваем клонированному списку номера
-    int g = 1;
-        for(Node &b : y) {
-            b.num = a.size() + g + 1;
-            g++;
-        }
-
-    add_Last(a, n);
-    int ost = a.size();
-    for(int t = m+ost; t > ost; t--){
-        add_Last(a, get_Num(y,t));
-    }
-}
-
-
-void testing(list<Node> &a){
-
-    for (int i = 0; i < 9; ++i) {
-        cout << "Введите имя и фамилию человека \n";
-        string tempname = "name" + to_string(i);
-        string tempsur = "firstname" + to_string(i);
-        cin >> tempname >> tempsur;
-        Node n(tempname, tempsur);
-        cout <<
-             "Добавляем его в список на последнюю позицию...\n";
-        add_Last(a, n);
-    }
-
-    cout << "Введите имя и фамилию человека \n";
-    string tempname,tempsur;
-    cin >> tempname >> tempsur;
-    Node n(tempname, tempsur);
-    cout <<
-         "Добавляем его в список на первую позицию...\n";
-    add_First(a, n);
-
-
-    cout << "Выводим список для проверки..." << endl;
-    print(a);
-
-
-    Node test7("Артемис", "Артемкис");
-    int k1 = 3;
-    cout << "Добавим Артемис Артемкис в середину списка " << "перед " << k1 << " позицией " << endl;
-    addForw(a, k1, test7);
-    cout << "Выводим список для проверки..." << endl;
-    print(a);
-
-    cout << endl;
-
-
-    int first = 4;
-    int second = 6;
-    cout << "Меняем местами " << first <<  " и " << second << " элемент..." << endl;
-    swap(a, 4, 6);
-
-
-
-    cout << "Удаляем первый элемент списка..." << endl;
-    del_First(a);
-
-    cout << "Удаляем последний элемент списка..." << endl;
-    del_Last(a);
-
-    cout << "Выводим список для проверки..." << endl;
-    print(a);
-
-    Node test("Артемис", "Артемкис");
-    cout << "Найдем элемент " << test.name << " " << test.firstname << endl;
-    if(find_First(a, test) == 0){cout << "Такого элемента не существует\n";}else{
-        cout << "Запрашиваемый элемент находится на позиции " << find_First(a, test) << endl;
-    }
-
-        cout << endl << endl;
-
-    Node test2("Константин", "Зубченко");
-    cout << "Найдем элемент " << test2.name << " " <<  test2.firstname << endl;
-    if(find_First(a, test2) == 0){cout << "Такого элемента не существует\n";}else{
-        cout << "Запрашиваемый элемент встречается " << find_All(a, test2) << " раз" << endl;
-    }
-
-    Node test3("Константин", "Зубченко");
-    cout << "Найдем элемент " << test3.name << " " <<  test3.firstname << " и изменим его первое вхождение на Мамин Умничка" << endl;
-    change_First(a, test3 ,"Мамин", "Умничка");
-
-    cout << "Выводим список для проверки..." << endl;
-    print(a);
-
-    cout << endl;
-
-
-    cout << "Введите номер элемента, который нужно изменить: \n";
-    int num = 0;
-    cin >> num;
-    cout << "Найдем элемент под номером " << num << " и изменим вхождение по заданному номеру на Мамин Умничка" << endl;
-
-    change_Number(a, "Мамин", "Умничка", num);
-
-    cout << "Выводим список для проверки...\n" << endl;
-    print(a);
-
-    cout << endl;
-
-    Node test4("Константин", "Зубченко");
-    cout << "Найдем все элементы " << test4.name << " " << test4.firstname << "и изменим все вхождения этого элемента на Мамин "
-                                                                       "Умничка" << endl;
-    change_All(a, test4, "Мамин", "Умничка");
-    cout << "Выводим список для проверки...\n" << endl;
-    print(a);
-
-    cout << endl;
-
-    Node test5("Артем", "Артемко");
-    int k = 5;
-    cout << "Добавим Артем Артемко в середину списка " << "после " << k << " позиции" << endl;
-    addPrev(a, k, test5);
-    cout << "Выводим список для проверки..." << endl;
-    print(a);
-
-    cout << endl;
-
-
-}
-
-int main() {
-    setlocale(LC_ALL, "Ru");
-
-    list<Node> a;
-
-    testing(a);
-
 }
