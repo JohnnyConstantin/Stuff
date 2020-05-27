@@ -269,8 +269,19 @@ struct ActionLos
                         break;
                 }
             case 0:
-                cout << "Программа завершена"<<endl<<endl<<endl;
-                return;
+                cout << "Вы уверены, что хотите выйти из программы?"<<endl;
+                cout << "[1] - Да" << endl;
+                cout << "[2] - Нет" << endl;
+                cin >> choise;
+                switch(choise){
+                    case 1:
+                        cout << "Программа завершена"<<endl<<endl<<endl;
+                        return;
+                    case 2:
+                        cout << "Не выходим из программы";
+                        break;
+                }
+                break;
             default:
                 cout << "Вы ввели неправильную команду!";
                 menu1();
