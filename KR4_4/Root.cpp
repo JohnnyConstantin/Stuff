@@ -149,7 +149,7 @@ void Root::emit()
 
 void Root::setConnections()
 {
-    cout << "\nSet connections";
+    cout << "\nSet connects";
     for(int i=0; i < setCons.size(); i++)
     {
         cout << endl << setCons[i]->num << " " << setCons[i]->obj1 << " " <<

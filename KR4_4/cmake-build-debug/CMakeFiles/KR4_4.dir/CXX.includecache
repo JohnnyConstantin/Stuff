@@ -6,9 +6,29 @@
 
 #IncludeRegexTransform: 
 
+/Applications/GitHub/GitHub/Stuff/KR4_4/Branch2.cpp
+stdlib.h
+-
+stdio.h
+-
+iostream
+-
+Branch2.h
+/Applications/GitHub/GitHub/Stuff/KR4_4/Branch2.h
+
 /Applications/GitHub/GitHub/Stuff/KR4_4/Branch2.h
 Fond.h
 /Applications/GitHub/GitHub/Stuff/KR4_4/Fond.h
+
+/Applications/GitHub/GitHub/Stuff/KR4_4/Branch3.cpp
+stdlib.h
+-
+stdio.h
+-
+iostream
+-
+Branch3.h
+/Applications/GitHub/GitHub/Stuff/KR4_4/Branch3.h
 
 /Applications/GitHub/GitHub/Stuff/KR4_4/Branch3.h
 Fond.h
@@ -23,6 +43,14 @@ Fond.h
 /Applications/GitHub/GitHub/Stuff/KR4_4/Fond.h
 
 /Applications/GitHub/GitHub/Stuff/KR4_4/Branch6.h
+Fond.h
+/Applications/GitHub/GitHub/Stuff/KR4_4/Fond.h
+
+/Applications/GitHub/GitHub/Stuff/KR4_4/Fond.cpp
+iostream
+-
+stdlib.h
+-
 Fond.h
 /Applications/GitHub/GitHub/Stuff/KR4_4/Fond.h
 
@@ -59,4 +87,24 @@ vector
 -
 string
 -
+
+/Applications/GitHub/GitHub/Stuff/KR4_4/main.cpp
+iostream
+-
+string
+-
+stdlib.h
+-
+stdio.h
+-
+Root.h
+/Applications/GitHub/GitHub/Stuff/KR4_4/Root.h
+Fond.h
+/Applications/GitHub/GitHub/Stuff/KR4_4/Fond.h
+Branch2.h
+/Applications/GitHub/GitHub/Stuff/KR4_4/Branch2.h
+Branch3.h
+/Applications/GitHub/GitHub/Stuff/KR4_4/Branch3.h
+Branch4.h
+/Applications/GitHub/GitHub/Stuff/KR4_4/Branch4.h
 
