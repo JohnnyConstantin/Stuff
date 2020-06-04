@@ -16,7 +16,7 @@ typedef void (Fond::* TYPE_HANDLER) (string);
 class Fond
 {
 private:
-    int state, space;
+    int state, space, classNum = 1;
     vector<Fond*> child = {};
     Fond *parent;
     string name;
@@ -29,7 +29,6 @@ private:
     vector<sh*> connections;
 
 public:
-    int classNum = 1;
     Fond(Fond *parent);
     Fond(Fond *parent, string name);
 

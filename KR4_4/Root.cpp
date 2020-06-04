@@ -40,31 +40,31 @@ void Root::start()
         {
             case 2:
             {
-                obj = new Branch2(adress_search(parentName), childName);
+                obj = new Branch2(fParent(parentName), childName);
                 obj->setState(state);
                 break;
             }
             case 3:
             {
-                obj = new Branch3(adress_search(parentName), childName);
+                obj = new Branch3(fParent(parentName), childName);
                 obj->setState(state);
                 break;
             }
             case 4:
             {
-                obj = new Branch4(adress_search(parentName), childName);
+                obj = new Branch4(fParent(parentName), childName);
                 obj->setState(state);
                 break;
             }
             case 5:
             {
-                obj = new Branch5(adress_search(parentName), childName);
+                obj = new Branch5(fParent(parentName), childName);
                 obj->setState(state);
                 break;
             }
             case 6:
             {
-                obj = new Branch6(adress_search(parentName), childName);
+                obj = new Branch6(fParent(parentName), childName);
                 obj->setState(state);
                 break;
             }
