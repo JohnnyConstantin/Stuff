@@ -1,0 +1,3 @@
+/Applications/GitHub/GitHub/Stuff/pr1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Applications/GitHub/GitHub/Stuff/pr1/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Applications/GitHub/GitHub/Stuff/pr1/cmake-build-debug/CMakeFiles/pr1.dir
