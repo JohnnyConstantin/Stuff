@@ -78,10 +78,6 @@ void Print(QueueLos Q){//вывод очереди
     cout << "---------------------" << endl;
 }
 
-
-
-
-
 template <typename T>
 class Queue
 {
@@ -246,7 +242,7 @@ double Prefixcalc(string exprsn)
 {
     Queue<double> Queue;
 
-    for (int j = exprsn.length() - 1; j >= 0; j--) {
+    for (int j = exprsn.size() - 1; j >= 0; j--) {
         if (isOperand(exprsn[j]))
             Queue.push(exprsn[j] - '0');//Переводим char в число
 
@@ -281,12 +277,14 @@ double Prefixcalc(string exprsn)
 int main() {
     char kindOfQueue;
     while (true) {
+        string exprsn;
         Queue<string> Q1;
         int exit=0;
         cout << "Выберите действие\n"
                 "1. Протестировать очередь на базе однонаправленного динамического списка\n"
                 "2. Протестировать очередь на базе динамического массива\n"
-                "3. Префиксный калькулятор\n";
+                "3. Префиксный калькулятор\n"
+                "Номер команды > ";
         cin >> kindOfQueue;
         switch (kindOfQueue) {
             case '1':
@@ -429,7 +427,10 @@ int main() {
                     }
                 } break;
             case '3':
-                    string exprsn;
+                    cout << "Тестирование калькулятора...\n"
+                            "Выражение: /3+45\n"
+                            "Результат: " << Prefixcalc("/3+45") << endl <<
+                            "Тестирование пройдено успешно\n";
                     cout << "Введите выражение: ";
                     cin >> exprsn;
                     cout << "Результат: "<< Prefixcalc(exprsn) << endl;
