@@ -37,13 +37,15 @@ bool Full(QueueLos *Q) //проверка очереди на пустоту
 }
 
 string Top(QueueLos *Q) //вывод начального элемента
-{ return Q->first->next->data; }
+{
+    return Q->first->next->data;
+}
 
 void Add(QueueLos *Q) //добавление элемента
 {
     if(Q->size>=5){cout<<"Очередь переполнена, добавление элемента невозможно\n";} else {
         string city;
-        cout << "\nВведите название города";
+        cout << "\nВведите название города\n";
         cin >> city;
         Q->last->next = new Node;
         Q->last = Q->last->next;
@@ -65,6 +67,16 @@ void Delete(QueueLos *Q) //удаление элемента
 
 int Size(QueueLos *Q) //размер очереди
 { return Q->size; }
+
+
+void Print(QueueLos Q){//вывод очереди
+    for(int i =0; i < Q.size; i++) {
+        cout << Q.first->next->data << endl;
+        Q.first=Q.first->next;
+    }
+    cout << endl;
+    cout << "---------------------" << endl;
+}
 
 
 
@@ -175,7 +187,6 @@ public:
 // метод, выводящий очередь
     void print(const char* objName)
     {
-        cout << "Object: " << objName << endl;
         for (int i = 0; i < count; i++)
             cout << p[i] << "\t";
         cout << endl;
@@ -202,12 +213,13 @@ int main() {
                         << "Добро пожаловать в программу-реализацию очереди на базе однонаправленного динамического списка.\n";
                 while (exit==0) {
                     cout
-                            << "Пожалуйста, выберите желаемое действие с очередью ( максимальный размер очереди - 5 объектов )\n";
-                    cout << "1. Добавить элемент\n";
-                    cout << "2. Удалить элемент\n";
-                    cout << "3. Вывести верхний элемент\n";
-                    cout << "4. Узнать размер очереди\n";
-                    cout << "0. Выйти\n\n";
+                            << "Пожалуйста, выберите желаемое действие с очередью ( максимальный размер очереди - 5 объектов )\n"
+                            "1. Добавить элемент\n"
+                            "2. Удалить элемент\n"
+                            "3. Вывести верхний элемент\n"
+                            "4. Узнать размер очереди\n"
+                            "5. Вывести очередь\n"
+                            "0. Выйти\n\n";
                     cout << "Номер команды > ";
                     cin >> number;
                     switch (number) {
@@ -215,7 +227,7 @@ int main() {
                             Add(&Q);
                             break;
                         case '2':
-                            if (Full(&Q)) cout << endl << "Очередь пуста\n\n";
+                            if (Full(&Q)) cout << endl <<"Очередь пуста\n\n";
                             else Delete(&Q);
                             break;
                         case '3':
@@ -226,10 +238,19 @@ int main() {
                             if (Full(&Q)) cout << endl << "Очередь пуста\n\n";
                             else cout << "\nРазмер очереди: " << Size(&Q) << "\n\n";
                             break;
+                        case '5':
+                            Print(Q);
+                            break;
                         case '0':
-                            exit = 1;
-                        default:
-                            cout << endl << "Команда не определена\n\n";
+                            cout << "\nВы действительно хотите выйти?\n\t1. Да\n\t2. Нет\n";
+                            char choice4;
+                            cin >> choice4;
+                            switch (choice4) {
+                                case '1':
+                                    exit = 1;
+                                case '2':
+                                    break;
+                            }
                             break;
                     }
                 }
@@ -244,18 +265,19 @@ int main() {
                                "2. Вывод первого элемента очереди\n"
                                "3. Проверка очереди\n"
                                "4. Вывести очередь на экран\n"
-                               "5. Выйти из программы\n";
+                               "5. Выйти из программы\n\n";
+                            cout << "Номер команды > ";
                     string city, poppedItem, firstItem;
                     cin >> choice;
                     switch (choice) {
                         case '1':
-                            cout << "Введите город, который хотите добавить в очередь\n";
+                            cout << "\nВведите город, который хотите добавить в очередь\n";
                             cin >> city;
                             if (Q1.GetN() >= 5) {
-                                cout << "Очередь переполнена\nЭлемент не может быть добавлен\n";
+                                cout << "\nОчередь переполнена\nЭлемент не может быть добавлен\n";
                             } else {
                                 Q1.push(city);
-                                cout << "Элемент добавлен успешно\n";
+                                cout << "\nЭлемент добавлен успешно\n\n";
                             }
                             break;
                         case '2':
@@ -267,18 +289,18 @@ int main() {
                                 case '1':
                                     if (Q1.GetN() != 0) {
                                         poppedItem = Q1.GetItem();
-                                        cout << "Первый элемент очереди = " << poppedItem << endl;
+                                        cout << "\nПервый элемент очереди = " << poppedItem << endl << endl;
                                         Q1.pop();
                                     } else {
-                                        cout << "Очередь пустая! Нечего выводить\n";
+                                        cout << "\nОчередь пустая! Нечего выводить\n";
                                     }
                                     break;
                                 case '2':
                                     if (Q1.GetN() != 0) {
                                         firstItem = Q1.GetItem();
-                                        cout << "Первый элемент очереди = " << firstItem << endl;
+                                        cout << "\nПервый элемент очереди = " << firstItem << endl << endl;
                                     } else {
-                                        cout << "Очередь пустая! Нечего выводить\n";
+                                        cout << "\nОчередь пустая! Нечего выводить\n";
                                     }
                                     break;
                             }
@@ -291,15 +313,15 @@ int main() {
                             switch (choice3) {
                                 case '1':
                                     if (Q1.IsEmpty())
-                                        cout << "Очередь пустая\n";
+                                        cout << "\nОчередь пустая\n\n";
                                     else
-                                        cout << "Очередь не пустая\n";
+                                        cout << "\nОчередь не пустая\n\n";
                                     break;
                                 case '2':
                                     if (Q1.GetN() >= 5)
-                                        cout << "Очередь переполнена\n";
+                                        cout << "\nОчередь переполнена\n\n";
                                     else
-                                        cout << "Очередь не переполнена\n";
+                                        cout << "\nОчередь не переполнена\n\n";
                                     break;
                             }
                             break;
@@ -307,7 +329,7 @@ int main() {
                             Q1.print("Q1");
                             break;
                         case '5':
-                            cout << "Вы действительно хотите выйти?\n\t1. Да\n\t2. Нет\n";
+                            cout << "\nВы действительно хотите выйти?\n\t1. Да\n\t2. Нет\n";
                             char choice4;
                             cin >> choice4;
                             switch (choice4) {
