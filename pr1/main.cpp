@@ -192,7 +192,95 @@ public:
         cout << endl;
         cout << "---------------------" << endl;
     }
+
+
+    T popfromback()
+    {
+        if (count == 0)
+            return 0;
+        T item;
+        item = p[count-1];
+// сформировать новый участок памяти, который на 1 меньше
+        try {
+            T* p2;
+// попытка выделить память
+            p2 = new T[count - 1];
+            count--; // уменьшить количество элементов в очереди
+            for (int i = 0; i < count-1; i++)
+                p2[i] = p[i]; // копируются все кроме первого элемента
+
+// освободить участок, на который указывает p
+            if (count > 0)
+                delete[] p;
+
+// перенаправить p на p2
+            p = p2;
+
+// вернуть item
+            return item;
+        }
+        catch (bad_alloc e)
+        {
+// если память не выделилась, то вернуть 0
+            cout << e.what() << endl;
+            return 0;
+        }
+    }
+
+double back(){
+    return p[count-1];
+}
+
+// возвращает  элемент очереди
+    double front(){
+        return p[0];
+}
+
+
 };
+
+
+
+bool isOperand(char c)
+{
+    return isdigit(c);
+}
+
+double evaluatePrefix(string exprsn)
+{
+    Queue<double> Queue;
+
+    for (int j = exprsn.length() - 1; j >= 0; j--) {
+        if (isOperand(exprsn[j]))
+            Queue.push(exprsn[j] - '0');//Переводим char в число
+
+        else {//При обнаружении оператора - достаем последние два числа из стэка
+            double o1 = Queue.back();
+            Queue.popfromback();
+            double o2 = Queue.back();
+            Queue.popfromback();
+            //Выбор действия на основе оператора
+            switch (exprsn[j]) {
+                case ' ':
+                    break;
+                case '+':
+                    Queue.push(o1 + o2);
+                    break;
+                case '-':
+                    Queue.push(o1 - o2);
+                    break;
+                case '*':
+                    Queue.push(o1 * o2);
+                    break;
+                case '/':
+                    Queue.push(o1 / o2);
+                    break;
+            }
+        }
+    }
+
+    return Queue.front();
+}
 
 int main() {
     char kindOfQueue;
@@ -202,7 +290,7 @@ int main() {
         cout << "Выберите способ реализации очереди\n"
                 "1. Очередь на базе однонаправленного динамического списка\n"
                 "2. Очередь на базе динамического массива\n"
-                "3. Выйти из программы\n";
+                "3. Калькулятор\n";
         cin >> kindOfQueue;
         switch (kindOfQueue) {
             case '1':
@@ -345,6 +433,10 @@ int main() {
                     }
                 } break;
             case '3':
+                    string exprsn;
+                    cout << "Введите выражение: ";
+                    cin >> exprsn;
+                    cout << "Результат: "<< evaluatePrefix(exprsn) << endl;
                 return 0;
         }
     }
