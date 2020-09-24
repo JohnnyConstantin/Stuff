@@ -226,27 +226,23 @@ public:
             return 0;
         }
     }
-
+//возвращает последний элемент очереди
 double back(){
     return p[count-1];
 }
 
-// возвращает  элемент очереди
+// возвращает первый элемент очереди
     double front(){
         return p[0];
 }
-
-
 };
-
-
 
 bool isOperand(char c)
 {
     return isdigit(c);
 }
 
-double evaluatePrefix(string exprsn)
+double Prefixcalc(string exprsn)
 {
     Queue<double> Queue;
 
@@ -287,10 +283,10 @@ int main() {
     while (true) {
         Queue<string> Q1;
         int exit=0;
-        cout << "Выберите способ реализации очереди\n"
-                "1. Очередь на базе однонаправленного динамического списка\n"
-                "2. Очередь на базе динамического массива\n"
-                "3. Калькулятор\n";
+        cout << "Выберите действие\n"
+                "1. Протестировать очередь на базе однонаправленного динамического списка\n"
+                "2. Протестировать очередь на базе динамического массива\n"
+                "3. Префиксный калькулятор\n";
         cin >> kindOfQueue;
         switch (kindOfQueue) {
             case '1':
@@ -436,7 +432,7 @@ int main() {
                     string exprsn;
                     cout << "Введите выражение: ";
                     cin >> exprsn;
-                    cout << "Результат: "<< evaluatePrefix(exprsn) << endl;
+                    cout << "Результат: "<< Prefixcalc(exprsn) << endl;
                 return 0;
         }
     }
