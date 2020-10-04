@@ -17,54 +17,66 @@ int height(Node *p)
     else return 0;
 }
 
-int BF(Node *p)
-{ return height(p->right)-height(p->left); }
-
-void OverHeight(Node *p)
+int bfactor(Node* p)
 {
-    char hleft=height(p->left);
-    char hright=height(p->right);
-    p->height=(hleft>hright ? hleft : hright)+1;
+    return height(p->right)-height(p->left);
 }
 
-Node* RightRotation(Node *x)
+void fixheight(Node* p)
 {
-    Node *y=x->left;
-    x->left=y->right;
-    y->right=x;
-    OverHeight(x);
-    OverHeight(y);
-    return y;
+    unsigned char hl = height(p->left);
+    unsigned char hr = height(p->right);
+    p->height = (hl>hr?hl:hr)+1;
 }
 
-Node *LeftRotation(Node *y)
+Node* rotateright(Node* p) // правый поворот вокруг p
 {
-    Node *x=y->right;
-    y->right=x->left;
-    x->left=y;
-    OverHeight(y);
-    OverHeight(x);
-    return x;
+    Node* q = p->left;
+    p->left = q->right;
+    q->right = p;
+    fixheight(p);
+    fixheight(q);
+    return q;
 }
 
-Node *Balance(Node *x)
+Node* rotateleft(Node* q) // левый поворот вокруг q
 {
-    OverHeight(x);
-    if (BF(x)==2)
+    Node* p = q->right;
+    q->right = p->left;
+    p->left = q;
+    fixheight(q);
+    fixheight(p);
+    return p;
+}
+
+Node* balance(Node* p) // балансировка узла p
+{
+    fixheight(p);
+    if( bfactor(p)==2 )
     {
-        if (BF(x->right)<0) x->right=RightRotation(x->right);
-        return LeftRotation(x);
+        if( bfactor(p->right) < 0 )
+            p->right = rotateright(p->right);
+        return rotateleft(p);
     }
-    if (BF(x)==-2)
+    if( bfactor(p)==-2 )
     {
-        if (BF(x->left)>0) x->left=LeftRotation(x->left);
-        return RightRotation(x);
+        if( bfactor(p->left) > 0  )
+            p->left = rotateleft(p->left);
+        return rotateright(p);
     }
-    return x;
+    return p; // балансировка не нужна
 }
 
 void print(Node *p){
     cout << p->height;
+}
+
+void summ(Node *root, int &sum) {
+    if (root != NULL) {
+        sum += root->key;
+        summ(root->left, sum);
+        summ(root->right, sum);
+    }
 }
 
 Node *Insert(Node *x, int k)
@@ -72,13 +84,16 @@ Node *Insert(Node *x, int k)
     if (!x) return new Node(k);
     if (k<x->key) x->left=Insert(x->left, k);
     else x->right=Insert(x->right, k);
-    return Balance(x);
+    return balance(x);
 }
 
 int main(){
-    Node *node = new Node(1);
-    Insert(node, 2);
-    Insert(node, 0);
-    Insert(node, 5);
+    Node *node = new Node(8);
+    Insert(node, 4);
+    Insert(node, 9);
+    int sum = 0;
+    summ(node,sum);
+    cout << sum << endl;
+    print(node);
     return 0;
 }
