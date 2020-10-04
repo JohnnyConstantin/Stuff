@@ -1,17 +1,17 @@
 #include <iostream>
-
+#include <string>
 using namespace std;
 
 struct Node
 {
     int key;
-    char height;
+    int height;
     Node *right;
     Node *left;
     Node(int k) { key=k; height=1; left=right=0; }
 };
 
-char height(Node *p)
+int height(Node *p)
 {
     if (p) return p->height;
     else return 0;
@@ -36,6 +36,7 @@ Node* RightRotation(Node *x)
     OverHeight(y);
     return y;
 }
+
 Node *LeftRotation(Node *y)
 {
     Node *x=y->right;
@@ -62,6 +63,10 @@ Node *Balance(Node *x)
     return x;
 }
 
+void print(Node *p){
+    cout << p->height;
+}
+
 Node *Insert(Node *x, int k)
 {
     if (!x) return new Node(k);
@@ -75,5 +80,5 @@ int main(){
     Insert(node, 2);
     Insert(node, 0);
     Insert(node, 5);
-    return height(node);
+    return 0;
 }
