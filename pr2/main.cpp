@@ -134,7 +134,7 @@ Node* peek(Stack *s) {
     return s->data[s->size-1];
 }
 
-void iterInorder(Node *root) {
+void iterSymmetry(Node *root) {
     Stack *ps = createStack();
     while (ps->size != 0 || root != NULL) {
         if (root != NULL) {
@@ -142,14 +142,14 @@ void iterInorder(Node *root) {
             root = root->left;
         } else {
             root = pop(ps);
-            printf("visited %d\n", root->key);
+            printf("Посещено %d\n", root->key);
             root = root->right;
         }
     }
     freeStack(&ps);
 }
 
-void iterPostorder(Node *root) {
+void iterFromBack(Node *root) {
     Stack *ps = createStack();
     Node *lnp = NULL;
     Node *peekn = NULL;
@@ -164,7 +164,7 @@ void iterPostorder(Node *root) {
                 root = peekn->right;
             } else {
                 pop(ps);
-                printf("visited %d\n", peekn->key);
+                printf("Посещено %d\n", peekn->key);
                 lnp = peekn;
             }
         }
@@ -174,16 +174,105 @@ void iterPostorder(Node *root) {
 }
 
 int main(){
-    Node *node = new Node(8);
-    Insert(node, 4);
-    Insert(node, 9);
-    Insert(node, 1);
-    Insert(node, 10);
-    int sum = 0;
-    iterPostorder(node);
-    iterInorder(node);
-    countLeafs(node, sum);
-    cout << sum;
-    printHeight(node);
-    return 0;
+    Node *node;
+    bool flag = false;
+    while(true) {
+        if (!flag) {
+            cout << "Здравствуйте, добро пожаловать в программу реализацию АВЛ-дерева.\n"
+                    "Создание дерева... Введите корень:\n";
+                    int root;
+                    cin >> root;
+                    node = new Node(root);;
+                    flag = true;
+        } else {
+            cout <<
+            "\nВыберите действие.\n"
+            "1. Провести тестирование\n"
+            "2. Создать дерево и добавить элемент\n"
+            "3. Найти сумму значений\n"
+            "4. Провести обход дерева\n"
+            "5. Найти высоту дерева\n"
+            "6. Выход\n\n"
+            "Выбранный вариант > ";
+            char choice;
+            cin >> choice;
+            cout << endl;
+            int sum = 0;
+            int key;
+            Node *test = new Node(8);
+            switch (choice) {
+                case '1':
+                    cout << "\nПроисходит тестирование...\n\n"
+                            "Создано дерево. Начинается добавление элементов...\n\n"
+                            "Добавлен элемент 8\n"
+                            "Добавлен элемент 4\n"
+                            "Добавлен элемент 9\n"
+                            "Добавлен элемент 1\n"
+                            "Добавлен элемент 10\n"
+                            "Добавлен элемент 12\n"
+                            "Добавлен элемент 0\n"
+                            "Добавлен элемент 11\n"
+                            "Добавлен элемент 3\n"
+                            "Добавлен элемент 2\n"
+                            "\nСовершим обратный обход дерева:\n";
+                    Insert(test, 4);
+                    Insert(test, 9);
+                    Insert(test, 1);
+                    Insert(test, 6);
+                    Insert(test, 10);
+                    Insert(test, 5);
+                    Insert(test, 11);
+                    Insert(test, 7);
+                    Insert(test, 12);
+                    iterFromBack(test);
+                    cout << "\nСовершим симметричный обход дерева:\n";
+                    iterSymmetry(test);
+                    cout << "\nСумма листьев дерева равна:\n";
+                    countLeafs(test, sum);
+                    printf("%d", sum);
+                    cout << "\nВысота дерева равна:\n";
+                    printHeight(test);
+                    cout << endl << endl;
+                    break;
+                case '2':
+                    cout << "Введите ключ, который необходимо вставить\n"
+                            "Ключ > ";
+                    cin >> key;
+                    Insert(node, key);
+                    break;
+                case '3':
+                    cout << "Сумма значений равна:\n";
+                    countLeafs(node, sum);
+                    break;
+                case '4':
+                    char choice2;
+                    cout << "Выберите какой обход вы хотите совершить.\n"
+                            "1. Симметричный обход дерева\n"
+                            "2. Обратный обход дерева\n"
+                            "3. Вернуться назад\n\n"
+                            "Выбранный вариант > ";
+                    cin >> choice2;
+                    switch (choice2) {
+                        case '1':
+                            iterSymmetry(node);
+                            break;
+                        case '2':
+                            iterFromBack(node);
+                            break;
+                        case '3':
+                            break;
+                    }
+                    break;
+                case '5':
+                    printHeight(node);
+                    cout << endl << endl;
+                    break;
+                case '6':
+                    return 0;
+                default:
+                    cout << "Что-то пошло не так, попробуйте еще раз\n";
+                    break;
+            }
+        }
+    }
 }
