@@ -1,6 +1,4 @@
 #include <iostream>
-#include <string>
-#include <stack>
 using namespace std;
 
 struct Node
@@ -188,7 +186,7 @@ int main(){
             cout <<
             "\nВыберите действие.\n"
             "1. Провести тестирование\n"
-            "2. Создать дерево и добавить элемент\n"
+            "2. Добавить элемент\n"
             "3. Найти сумму значений\n"
             "4. Провести обход дерева\n"
             "5. Найти высоту дерева\n"
@@ -198,12 +196,13 @@ int main(){
             cin >> choice;
             cout << endl;
             int sum = 0;
+            int lsum =0;
             int key;
             Node *test = new Node(8);
             switch (choice) {
                 case '1':
                     cout << "\nПроисходит тестирование...\n\n"
-                            "Создано дерево. Начинается добавление элементов...\n\n"
+                            "Создано новое дерево. Начинается добавление элементов...\n\n"
                             "Добавлен элемент 8\n"
                             "Добавлен элемент 4\n"
                             "Добавлен элемент 9\n"
@@ -241,8 +240,9 @@ int main(){
                     Insert(node, key);
                     break;
                 case '3':
-                    cout << "Сумма значений равна:\n";
-                    countLeafs(node, sum);
+                    cout << "Сумма значений листьев равна:\n";
+                    countLeafs(node, lsum);
+                    cout << lsum;
                     break;
                 case '4':
                     char choice2;
