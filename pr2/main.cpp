@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <stack>
 using namespace std;
 
 struct Node
@@ -67,7 +68,7 @@ Node* balance(Node* p) // балансировка узла p
     return p; // балансировка не нужна
 }
 
-void print(Node *p){
+void printHeight(Node *p){
     cout << p->height;
 }
 
@@ -93,6 +94,85 @@ Node *Insert(Node *x, int k)
     return balance(x);
 }
 
+typedef struct Stack {
+    size_t size;
+    size_t limit;
+    Node **data;
+} Stack;
+
+Stack* createStack() {
+    Stack *tmp = (Stack*) malloc(sizeof(Stack));
+    tmp->limit = 100;
+    tmp->size = 0;
+    tmp->data = (Node**) malloc(tmp->limit * sizeof(Node*));
+    return tmp;
+}
+
+void freeStack(Stack **s) {
+    free((*s)->data);
+    free(*s);
+    *s = NULL;
+}
+
+void push(Stack *s, Node *item) {
+    if (s->size >= s->limit) {
+        s->limit *= 2;
+        s->data = (Node**) realloc(s->data, s->limit * sizeof(Node*));
+    }
+    s->data[s->size++] = item;
+}
+
+Node* pop(Stack *s) {
+    if (s->size == 0) {
+        exit(7);
+    }
+    s->size--;
+    return s->data[s->size];
+}
+
+Node* peek(Stack *s) {
+    return s->data[s->size-1];
+}
+
+void iterInorder(Node *root) {
+    Stack *ps = createStack();
+    while (ps->size != 0 || root != NULL) {
+        if (root != NULL) {
+            push(ps, root);
+            root = root->left;
+        } else {
+            root = pop(ps);
+            printf("visited %d\n", root->key);
+            root = root->right;
+        }
+    }
+    freeStack(&ps);
+}
+
+void iterPostorder(Node *root) {
+    Stack *ps = createStack();
+    Node *lnp = NULL;
+    Node *peekn = NULL;
+
+    while (!ps->size == 0 || root != NULL) {
+        if (root) {
+            push(ps, root);
+            root = root->left;
+        } else {
+            peekn = peek(ps);
+            if (peekn->right && lnp != peekn->right) {
+                root = peekn->right;
+            } else {
+                pop(ps);
+                printf("visited %d\n", peekn->key);
+                lnp = peekn;
+            }
+        }
+    }
+
+    freeStack(&ps);
+}
+
 int main(){
     Node *node = new Node(8);
     Insert(node, 4);
@@ -100,8 +180,10 @@ int main(){
     Insert(node, 1);
     Insert(node, 10);
     int sum = 0;
+    iterPostorder(node);
+    iterInorder(node);
     countLeafs(node, sum);
     cout << sum;
-    print(node);
+    printHeight(node);
     return 0;
 }
