@@ -71,13 +71,19 @@ void print(Node *p){
     cout << p->height;
 }
 
-void summ(Node *root, int &sum) {
-    if (root != NULL) {
-        sum += root->key;
-        summ(root->left, sum);
-        summ(root->right, sum);
-    }
-}
+void countLeafs(Node* t_node, int &sum)
+{
+    if (t_node == NULL)
+        return;
+
+    countLeafs(t_node->left, sum);
+
+    if (!t_node->left && !t_node->right)
+        sum+=t_node->key;
+
+    countLeafs(t_node->right, sum);
+};
+
 
 Node *Insert(Node *x, int k)
 {
@@ -91,9 +97,11 @@ int main(){
     Node *node = new Node(8);
     Insert(node, 4);
     Insert(node, 9);
+    Insert(node, 1);
+    Insert(node, 10);
     int sum = 0;
-    summ(node,sum);
-    cout << sum << endl;
+    countLeafs(node, sum);
+    cout << sum;
     print(node);
     return 0;
 }
