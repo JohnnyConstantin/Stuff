@@ -1,3 +1,6 @@
+
+//Программа написана Зубченко К.В., студент 2 курса РТУ МИРЭА
+
 #include <iostream>
 using namespace std;
 
@@ -92,83 +95,20 @@ Node *Insert(Node *x, int k)
     return balance(x);
 }
 
-typedef struct Stack {
-    size_t size;
-    size_t limit;
-    Node **data;
-} Stack;
-
-Stack* createStack() {
-    Stack *tmp = (Stack*) malloc(sizeof(Stack));
-    tmp->limit = 100;
-    tmp->size = 0;
-    tmp->data = (Node**) malloc(tmp->limit * sizeof(Node*));
-    return tmp;
-}
-
-void freeStack(Stack **s) {
-    free((*s)->data);
-    free(*s);
-    *s = NULL;
-}
-
-void push(Stack *s, Node *item) {
-    if (s->size >= s->limit) {
-        s->limit *= 2;
-        s->data = (Node**) realloc(s->data, s->limit * sizeof(Node*));
-    }
-    s->data[s->size++] = item;
-}
-
-Node* pop(Stack *s) {
-    if (s->size == 0) {
-        exit(7);
-    }
-    s->size--;
-    return s->data[s->size];
-}
-
-Node* peek(Stack *s) {
-    return s->data[s->size-1];
-}
-
 void iterSymmetry(Node *root) {
-    Stack *ps = createStack();
-    while (ps->size != 0 || root != NULL) {
-        if (root != NULL) {
-            push(ps, root);
-            root = root->left;
-        } else {
-            root = pop(ps);
-            printf("Посещено %d\n", root->key);
-            root = root->right;
-        }
-    }
-    freeStack(&ps);
+    if(NULL==root)
+        return;
+    iterSymmetry(root->left);
+    cout << "Обошли "<< root->key << endl;
+    iterSymmetry(root->right);
 }
 
 void iterFromBack(Node *root) {
-    Stack *ps = createStack();
-    Node *lnp = NULL;
-    Node *peekn = NULL;
-
-    while (!ps->size == 0 || root != NULL) {
-        if (root) {
-            push(ps, root);
-            root = root->left;
-        } else {
-            peekn = peek(ps);
-            if (peekn->right && lnp != peekn->right) {
-                root = peekn->right;
-            } else {
-                pop(ps);
-                printf("Посещено %d\n", peekn->key);
-                lnp = peekn;
-            }
-        }
-    }
-
-    freeStack(&ps);
+   if(NULL==root)
+       return;
+   iterFromBack(root->left);
+   iterFromBack(root->right);
+   cout << "Обошли "<< root->key << endl;
 }
 
 int main(){
@@ -202,27 +142,15 @@ int main(){
             switch (choice) {
                 case '1':
                     cout << "\nПроисходит тестирование...\n\n"
-                            "Создано новое дерево. Начинается добавление элементов...\n\n"
-                            "Добавлен элемент 8\n"
-                            "Добавлен элемент 4\n"
-                            "Добавлен элемент 9\n"
-                            "Добавлен элемент 1\n"
-                            "Добавлен элемент 10\n"
-                            "Добавлен элемент 12\n"
-                            "Добавлен элемент 0\n"
-                            "Добавлен элемент 11\n"
-                            "Добавлен элемент 3\n"
-                            "Добавлен элемент 2\n"
-                            "\nСовершим обратный обход дерева:\n";
-                    Insert(test, 4);
-                    Insert(test, 9);
-                    Insert(test, 1);
-                    Insert(test, 6);
-                    Insert(test, 10);
-                    Insert(test, 5);
-                    Insert(test, 11);
-                    Insert(test, 7);
-                    Insert(test, 12);
+                            "Создано новое дерево. Начинается добавление элементов...\n\n";
+                    for (int i = 0; i < 9; ++i) {
+                        int fortest;
+                        cout << "Добавьте элемент: ";
+                        cin >> fortest;
+                        Insert(test,fortest);
+                        cout << "Добавлен элемент " << fortest << "\n";
+                    }
+                    cout << "\nСовершим обратный обход дерева:\n";
                     iterFromBack(test);
                     cout << "\nСовершим симметричный обход дерева:\n";
                     iterSymmetry(test);
