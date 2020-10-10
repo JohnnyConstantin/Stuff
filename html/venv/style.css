@@ -1,0 +1,80 @@
+body {
+font-family: Bebas, Arial, sans-serif;
+background: linear-gradient(-45deg, mediumvioletred, darkred, grey, darkslategrey);
+background-size: 200% 200%;
+animation: gradient 10s ease infinite;
+}
+
+@keyframes gradient {
+0% {
+background-position: 0% 50%;
+}
+50% {
+background-position: 100% 50%;
+}
+100% {
+background-position: 0% 50%;
+}
+}
+
+h1, h2, h3{
+color:yellow;
+}
+.t1 {
+color: pink ;
+}
+p i {
+color: green;
+}
+
+p {
+animation-duration: 3s;
+animation-iteration-count: infinite;
+animation-direction: alternate;
+animation-name: slidein;
+}
+
+@keyframes slidein {
+from {
+margin-left: 100%;
+width: 100%;
+}
+
+to {
+margin-left: 0%;
+width: 100%;
+}
+}
+
+p:first-letter {
+font-size: 36px;
+color: red
+}
+a{
+color: #99CCCC;
+text-decoration: none;
+}
+a:link
+a:hover{
+color: white;
+}
+
+
+img {
+animation-name: rt;
+animation-duration: 5s;
+animation-iteration-count: infinite;
+animation-timing-function: linear;
+}
+
+@keyframes rt {
+0%{
+transform: rotate(0deg);
+}
+100% {
+transform: rotate(360deg);
+}
+}
+
+a:active
+a:visited
