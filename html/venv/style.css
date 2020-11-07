@@ -1,80 +1,46 @@
-body {
-font-family: Bebas, Arial, sans-serif;
-background: linear-gradient(-45deg, mediumvioletred, darkred, grey, darkslategrey);
-background-size: 200% 200%;
-animation: gradient 10s ease infinite;
-}
 
-@keyframes gradient {
-0% {
-background-position: 0% 50%;
+#red
+{
+display: inline-block;
+width:50%;
+height:400px;
+background-color:red;
 }
-50% {
-background-position: 100% 50%;
+#wh
+{
+color:white;
+font-size:20px;
+margin-left:15px;
 }
-100% {
-background-position: 0% 50%;
+#black
+{
+display: inline-block;
+width:49%;
+height:400px;
+background-color:black;
 }
+iframe
+{
+margin-left:15px;
 }
-
-h1, h2, h3{
-color:yellow;
+#top
+{
+margin-top:21px;
+position:relative;
 }
-.t1 {
-color: pink ;
+#bl
+{
+color:black;
+font-size:20px;
+margin-left:15px;
 }
-p i {
-color: green;
+#rad
+{
+width:99%;
+height:30px;
+background-color:dimgray;
 }
-
-p {
-animation-duration: 3s;
-animation-iteration-count: infinite;
-animation-direction: alternate;
-animation-name: slidein;
+#zag
+{
+font-size:20px;
 }
-
-@keyframes slidein {
-from {
-margin-left: 100%;
-width: 100%;
-}
-
-to {
-margin-left: 0%;
-width: 100%;
-}
-}
-
-p:first-letter {
-font-size: 36px;
-color: red
-}
-a{
-color: #99CCCC;
-text-decoration: none;
-}
-a:link
-a:hover{
-color: white;
-}
-
-
-img {
-animation-name: rt;
-animation-duration: 5s;
-animation-iteration-count: infinite;
-animation-timing-function: linear;
-}
-
-@keyframes rt {
-0%{
-transform: rotate(0deg);
-}
-100% {
-transform: rotate(360deg);
-}
-}
-
-a:active
-a:visited
