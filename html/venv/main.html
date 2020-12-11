@@ -1,25 +1,74 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
-<title>
-Задание 10
-</title>
 <meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="style.css">
+<title>Задание 11</title>
 </head>
 <body>
+<input type="checkbox">
+<input type="checkbox" checked>
+<input type="text" id="message">
+<h3 id="widget-title">Сообщения:</h3>
+<ul id="messages">
+<li id="message-1">Сообщение 1</li>
+<li id="message-2">Сообщение 2</li>
 
-<ul>
+<li id="message-3" data-action="delete">Сообщение
 
-<li><a href="#">Home</a></li>
-<li><a href="#">Products</a>
-<ul id="submenu">
-<li><a href="#">Tables</a></li>
-<li><a href="#">Chairs</a></li>
+3</li>
+
+<li id="message-4" data-action="edit
+
+do-not-delete">Сообщение 4</li>
+
+<li id="message-5" data-action="edit
+
+delete">Сообщение 5</li>
+<li><a href="#">link</a></li>
 </ul>
-</li>
-<li><a href="#">About</a></li>
+<a href="http://smth.com/file.zip">Архив</a>
+<a href="http://smth.com/file.pdf">PDF</a>
+<script>
+// Все checkbox
+test('input[type="checkbox"]', 2);
+// Все checkbox(не отмеченные)
+test('input[type="checkbox"]:not(:checked)', 1);
+// Все элементы с id=message или message-*
+test('[id|="message"]', 6);
+// Все элементы с id=message-*
+test('[id^="message-"]', 5);
+// Все ссылки с расширением href="...zip"
+test('a[href$=".zip"]', 1);
 
-</ul>
+// Все элементы с data-action, содержащие delete в списке
+test('[data-action~="delete"]', 2);
+// Все элементы с data-action без delete
 
+test('[data-action]:not([data-action~="delete"])',
+
+1);
+// Все чётные элементы списка
+test('#messages li:nth-child(2n)', 3);
+// Элемент сразу за заголовком h3#widget-title
+test('h3#widget-title + *', 1);
+
+// Все ссылки, следующие за заголовком h3 #widget-title на том же уровне вложенности
+test('h3#widget-title ~ a', 2);
+
+// Ссылка внутри последнего элемента списка #messages
+test('#messages li:last-child a', 1);
+
+function test(selector, count) {
+
+const elements =
+
+document.querySelectorAll(selector);
+const test = (elements.length === count);
+
+if (!test) alert("Не сработало");
+
+else console.log("Все сработало");
+}
+</script>
 </body>
 </html>

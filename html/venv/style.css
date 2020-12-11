@@ -1,41 +1,47 @@
 
-ul{
-list-style: none;
-margin: 0;
-padding: 0;
-background: cadetblue;
-width:100%;
+input[type="checkbox"] {
+box-shadow: 0 0 10px red;
 }
 
-li{
-display: inline-block;
-margin-right: 20px;
-position: relative;
+input[type="checkbox"]:not(:checked) {
+box-shadow: 0 0 5px orange;
 }
 
-#submenu{
-position: absolute;
-top: 100%;
-left: 0;
-width: 100%;
-z-index: 10;
-display: none;
-background: aliceblue;
+[id|="message"] {
+box-shadow: 0 0 5px yellow;
 }
 
-a{
-    cursor: pointer;
-display: block;
-padding: 10px 15px;
-color: black;
-outline: none;
-text-decoration: none;
+[id^="message-"] {
+color: purple;
+}
+a[href$=".zip"] {
+color: green;
 }
 
-ul li:hover #submenu {
-display: block;
+[data-action~="delete"] {
+color: blue;
 }
 
-a:hover{
-background: darkgray;
+[data-action]:not([data-action~="delete"]) {
+box-shadow: inset 0 0 15px black;
+}
+
+#messages li:nth-child(2n):before {
+content: "2n -> | ";
+}
+
+h3#widget-title + * {
+background: grey;
+}
+
+h3#widget-title ~ a:before {
+content: "link -> | ";
+}
+
+h3#widget-title ~ a:before {
+content: "link -> | ";
+}
+
+#messages li:last-child {
+background: green;
 }
