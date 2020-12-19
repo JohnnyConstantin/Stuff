@@ -1,22 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Задание 11</title>
+<meta charset="utf-8">
+<title>3</title>
+<style>
+#field {
+height: 200px;
+border-bottom: 3px black solid;
+position: relative;
+}
+
+#ball {
+position: absolute;
+cursor: pointer;
+}
+</style>
 </head>
 <body>
+
+<script src="https://js.cx/libs/animate.js"></script>
+
+<div id="field">
+<img src="https://js.cx/clipart/ball.svg" width="40" height="40" id="ball">
+</div>
+
 <script>
-var str="Привет, Мир!";
-alert(str);
+function makeEaseOut(timing) {
+return function(timeFraction) {
+return 1 - timing(1 - timeFraction);
+}
+}
 
-var str1="Привет, ", str2="Мир!";
-alert(str1+str2);
+function bounce(timeFraction) {
+for (let a = 0, b = 1, result;; a += b, b /= 2) {
+if (timeFraction >= (7 - 4 * a) / 11) {
+return -Math.pow((11 - 6 * a - 11 * timeFraction) / 4, 2) + Math.pow(b, 2)
+}
+}
+}
 
-var name="Костик";
-alert(str1+name+'!');
+ball.onclick = function() {
 
-var age = 19;
-alert("Мне "+age+" лет!");
+let to = field.clientHeight - ball.clientHeight;
+
+animate({
+duration: 2000,
+timing: makeEaseOut(bounce),
+draw(progress) {
+ball.style.top = to * progress + 'px'
+}
+});
+};
 </script>
+
 </body>
 </html>
