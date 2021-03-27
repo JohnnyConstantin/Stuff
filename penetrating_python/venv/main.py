@@ -8,30 +8,33 @@ ip = "1.1.1"
 host = "ya.ru"
 id = "1412"
 
-class Factory(object):
+
+class Factory:
 
     def __init__(self, value1="message", value2=id, value3=host, value4=ip):
         self.value1 = value1
         self.value2 = value2
         self.value3 = value3
         self.value4 = value4
-        print(f"Id: {value2}, host: {value3}, ip: {value4}, msg: {value1}")
+        self.string = f"Id: {value2}, host: {value3}, ip: {value4}, msg: {value1}"
 
-    # def send_to_temp(self):
-    #   
-    #
-    # def catch(self):
-    #     thread1 = threading.Timer(3.0, msg)
-    #     thread1.start()
-    #     thread2 = threading.Wait(daemon=True, target=send_to_temp)
-    #     thread2.start()
-    #     time.sleep(5.0)
-    #     click.echo("returning")
-    #     return
+    def send_to_temp(self):
+        print(f"Making actions with {self.string}")
+
+    def msg(self):
+        print(f"Sending msg")
+
+    def catch(self):
+        self.msg()
+        self.send_to_temp()
+
 
 def main():
     print("If default:\n")
-    One = Factory("hello world")
+    one = Factory("hello world")
+    one.catch()
+    two = Factory("command", "id", "host", "ip")
+    two.catch()
 
 
 if __name__ == '__main__':
