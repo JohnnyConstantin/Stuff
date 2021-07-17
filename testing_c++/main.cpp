@@ -1,7 +1,5 @@
-void v(){
-    return;
-}
+#include <stdio.h>
 int main(){
-    v();
+    printf("Hello world\n");
     return 0;
 }
