@@ -7,6 +7,12 @@
 #IncludeRegexTransform: 
 
 /Applications/GitHub/GitHub/Stuff/testing_c++/main.cpp
-stdio.h
+cstdio
+-
+cstdlib
+-
+mach-o/loader.h
+-
+mach-o/swap.h
 -
 
