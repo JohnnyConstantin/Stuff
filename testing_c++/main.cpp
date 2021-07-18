@@ -42,24 +42,27 @@ void *load_bytes(FILE *obj_file, int offset, int size) {
 void dump_segment_commands(FILE *obj_file, int offset, int is_swap, uint32_t ncmds) {
     int actual_offset = offset;
     for (int  i = 0; i < ncmds; i++) {
-        struct load_command *cmd = load_bytes(obj_file, actual_offset, sizeof(struct load_command));
+        struct load_command *cmd = static_cast<load_command *>(load_bytes(obj_file, actual_offset,
+                                                                          sizeof(struct load_command)));
         if (is_swap) {
-            swap_load_command(cmd, 0);
+            swap_load_command(cmd, static_cast<NXByteOrder>(0));
         }
 
         if (cmd->cmd == LC_SEGMENT_64) {
-            struct segment_command_64 *segment = load_bytes(obj_file, actual_offset, sizeof(struct segment_command_64));
+            struct segment_command_64 *segment = static_cast<segment_command_64 *>(load_bytes(obj_file, actual_offset,
+                                                                                              sizeof(struct segment_command_64)));
             if (is_swap) {
-                swap_segment_command_64(segment, 0);
+                swap_segment_command_64(segment, static_cast<NXByteOrder>(0));
             }
 
             printf("segname: %s\n", segment->segname);
 
             free(segment);
         } else if (cmd->cmd == LC_SEGMENT) {
-            struct segment_command *segment = load_bytes(obj_file, actual_offset, sizeof(struct segment_command));
+            struct segment_command *segment = static_cast<segment_command *>(load_bytes(obj_file, actual_offset,
+                                                                                        sizeof(struct segment_command)));
             if (is_swap) {
-                swap_segment_command(segment, 0);
+                swap_segment_command(segment, static_cast<NXByteOrder>(0));
             }
 
             printf("segname: %s\n", segment->segname);
@@ -79,9 +82,9 @@ void dump_mach_header(FILE *obj_file, int offset, int is_64, int is_swap) {
 
     if (is_64) {
         int header_size = sizeof(struct mach_header_64);
-        struct mach_header_64 *header = load_bytes(obj_file, offset, header_size);
+        struct mach_header_64 *header = static_cast<mach_header_64 *>(load_bytes(obj_file, offset, header_size));
         if (is_swap) {
-            swap_mach_header_64(header, 0);
+            swap_mach_header_64(header, static_cast<NXByteOrder>(0));
         }
         ncmds = header->ncmds;
         load_commands_offset += header_size;
@@ -89,9 +92,9 @@ void dump_mach_header(FILE *obj_file, int offset, int is_64, int is_swap) {
         free(header);
     } else {
         int header_size = sizeof(struct mach_header);
-        struct mach_header *header = load_bytes(obj_file, offset, header_size);
+        struct mach_header *header = static_cast<mach_header *>(load_bytes(obj_file, offset, header_size));
         if (is_swap) {
-            swap_mach_header(header, 0);
+            swap_mach_header(header, static_cast<NXByteOrder>(0));
         }
 
         ncmds = header->ncmds;
